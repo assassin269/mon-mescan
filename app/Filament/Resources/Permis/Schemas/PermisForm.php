@@ -72,14 +72,41 @@ class PermisForm
                                 Select::make('categorie_id')
                                     ->label('Choix de la catégorie')
                                     ->options(Categories::all()->pluck('label', 'code'))
-                                    ->required(),
+                                    ->required()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, callable $set) {
+                                        // Si la catégorie est C, D ou E, forcer le statut Temporaire
+                                        if (in_array($state, ['C', 'D', 'E'])) {
+                                            $set('statut', 'Temporaire');
+                                        }
+                                    }),
+
                                 Select::make('statut')
                                     ->options([
                                         'Permanent' => 'Permanent',
                                         'Temporaire' => 'Temporaire',
                                     ])
                                     ->required()
-                                    ->live(),
+                                    ->live()
+                                    ->default(function (Get $get) {
+                                        $categorieId = $get('categorie_id');
+                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
+                                            return 'Temporaire';
+                                        }
+                                        return 'Permanent';
+                                    })
+                                    ->disabled(function (Get $get) {
+                                        $categorieId = $get('categorie_id');
+                                        return in_array($categorieId, ['C', 'D', 'E']);
+                                    })
+                                    ->hint(function (Get $get) {
+                                        $categorieId = $get('categorie_id');
+                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
+                                            return '⛔ Cette catégorie est obligatoirement temporaire';
+                                        }
+                                        return null;
+                                    }),
+
                                 DatePicker::make('date_d_expiration')
                                     ->label("Date d'expiration")
                                     ->visible(fn (Get $get) => $get('statut') === 'Temporaire')

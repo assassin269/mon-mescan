@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeScan : Modernisation du Permis Comorien</title>
+    <title>MeScan : Permis Comorien</title>
     <style>
         @page {
             size: A4 landscape;
@@ -24,24 +24,22 @@
             height: 100vh;
         }
 
-        /* --- BLOC GLOBAL DU PERMIS (Strictement 23,1 cm x 10,6 cm) --- */
         .permit-container {
             width: 231mm;
             height: 106mm;
             display: flex;
             box-sizing: border-box;
-            background-color: #ffffff; /* Couleur rose du carton */
+            background-color: #ffffff;
             padding-top: 6mm;
             padding-bottom: 6mm;
             padding-left: 6mm;
             position: relative;
         }
 
-        /* --- VOLET GAUCHE : Grand cadre unique (6,9 cm x 9,4 cm) --- */
         .panel-left {
             width: 69mm;
             height: 94mm;
-            border: 1px solid #000; /* Le grand carré unique demandé */
+            border: 1px solid #000;
             box-sizing: border-box;
             padding: 2mm;
             display: flex;
@@ -70,13 +68,12 @@
             display: inline-block;
         }
 
-        /* Ligne contenant la signature du titulaire à gauche et la photo à droite */
         .photo-signature-row {
             display: flex;
             justify-content: space-between;
             margin-top: 1mm;
             height: 28mm;
-            border-bottom: 1px solid #000; /* Ligne de séparation sous la photo selon l'image */
+            border-bottom: 1px solid #000;
             padding-bottom: 2mm;
         }
 
@@ -93,18 +90,9 @@
             margin-bottom: 1mm;
         }
 
-        .signature-box .signature-img {
-            position: absolute;
-            bottom: 1mm;
-            left: 0;
-            width: 100%;
-            max-height: 18mm;
-            object-fit: contain;
-        }
-
         .photo-box {
             width: 26mm;
-            height: 26mm; /* Devient carrée pour s'aligner parfaitement */
+            height: 26mm;
             border: 1px solid #000;
             background-color: rgba(255, 255, 255, 0.3);
             text-align: center;
@@ -124,7 +112,6 @@
             font-size: 8pt;
         }
 
-        /* Section du bas : Délivrance à gauche, Signature Directeur à droite */
         .bottom-administrative-zone {
             display: flex;
             justify-content: space-between;
@@ -161,7 +148,6 @@
             font-size: 7.5pt;
         }
 
-        /* Bloc Directeur de l'image (aligné à droite) */
         .stamp-authority-box {
             width: 30mm;
             text-align: center;
@@ -170,6 +156,7 @@
             flex-direction: column;
             justify-content: flex-start;
             box-sizing: border-box;
+            height: 100%;
         }
 
         .stamp-title-italic {
@@ -184,20 +171,16 @@
             line-height: 1.1;
         }
 
-        /* Espace blanc préservé pour sa signature physique ou électronique */
-        .stamp-signature-container {
+        /* Nom du Directeur Général - CENTRÉ en bas de la case */
+        .directeur-name {
+            font-weight: bold;
+            font-size: 6pt;
+            text-transform: uppercase;
             margin-top: auto;
-            height: 12mm;
+            padding-top: 1mm;
+            text-align: center;
             width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .signature-directeur-img {
-            max-height: 12mm;
-            max-width: 100%;
-            object-fit: contain;
+            display: block;
         }
 
         .mescan-security-footer {
@@ -215,12 +198,10 @@
             padding-top: 0.5mm;
         }
 
-        /* --- ESPACE STRICT ENTRE LES TABLEAUX (0,6 cm) --- */
         .spacer {
             width: 6mm;
         }
 
-        /* --- VOLET CENTRAL : Liste fixe des catégories (6,9 cm x 9,4 cm) --- */
         .panel-center {
             width: 69mm;
             height: 94mm;
@@ -278,7 +259,9 @@
         }
 
         .incrusted-permit-number {
-            display: block;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
             margin-top: 0.5mm;
             font-family: "Courier New", Courier, monospace;
             font-weight: bold;
@@ -286,7 +269,6 @@
             color: #000;
         }
 
-        /* --- VOLET DROIT : Droits de conduite et Sceaux (6,9 cm x 9,4 cm) --- */
         .panel-right {
             width: 69mm;
             height: 94mm;
@@ -380,6 +362,8 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            padding: 1mm;
+            box-sizing: border-box;
         }
 
         .permanent-stamp {
@@ -392,6 +376,15 @@
             transform: rotate(-3deg);
         }
 
+        /* Case NOIRE pour les catégories C, D, E (comme sur la photo) */
+        .temporary-black-box {
+            width: 100%;
+            height: 100%;
+            min-height: 8mm;
+            background-color: #000000;
+            border-radius: 1px;
+        }
+
         .seal-column {
             width: 21mm;
             display: flex;
@@ -399,47 +392,36 @@
             justify-content: center;
             position: relative;
         }
-
-        .administrative-red-seal {
-            width: 17mm;
-            height: 17mm;
-            border: 1.5px double #dc2626;
-            border-radius: 50%;
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #dc2626;
-            font-size: 3.5pt;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-            line-height: 1;
-            transform: rotate(15deg);
-            background: rgba(253, 242, 248, 0.4);
-            z-index: 10;
-        }
-
-        .administrative-red-seal .seal-center {
-            border-top: 0.5px solid #dc2626;
-            border-bottom: 0.5px solid #dc2626;
-            padding: 0.2mm 0;
-            margin-top: 0.2mm;
-            font-size: 4.5pt;
-        }
     </style>
 </head>
 <body>
 
+@php
+    $categoriesCodes = ['A', 'A1', 'A2', 'B', 'C', 'D', 'E', 'F'];
+
+    // Catégories qui ne peuvent pas être permanentes (toujours temporaires)
+    $alwaysTemporaryCategories = ['C', 'D', 'E'];
+
+    $descriptions = [
+        'A'  => 'Motocyclette avec sans side-car à moteur<br>De plus 125 cm³',
+        'A1' => 'Vélomoteur et véhicules à moteur de cylindrée<br>50 cm³ sans excéder 125 cm³',
+        'A2' => "Cyclomoteur et véhicules pourvus d'un moteur<br>dont la cylindrée ne dépasse pas 50 cm³",
+        'B'  => "Véhicule de moins de 10 places et d'un poids total<br>autorisé en charge n'excédant pas 3.500 kgs",
+        'C'  => "Véhicule affecté au transport des marchandises ou<br>de matériel de plus de 3.500 kgs PTAC",
+        'D'  => "Véhicule affecté au transport des personnes et<br>Comportant plus de 9 places assises",
+        'E'  => "Véhicules des catégories BCD ou F attelés d'une<br>remorque de plus de 750 kgs de PTAC",
+        'F'  => "Véhicules de catégorie A, A1, A2, ou B<br>spécialement aménagés"
+    ];
+
+    // Utilisation des accesseurs du modèle
+    $categoriesWithStatus = $permis->getCategoriesWithStatusAttribute();
+    $obtainedCategories = array_column($categoriesWithStatus, 'code');
+@endphp
+
 <div class="permit-container">
 
-    <!-- =========================================================================
-         VOLET GAUCHE : GRAND RECTANGLE UNIQUE (Conforme à IMG_20260407_134208_3.jpg)
-         ========================================================================= -->
+    {{-- VOLET GAUCHE --}}
     <div class="panel-left">
-
-        <!-- Informations État Civil -->
         <div class="input-group">
             <span class="label-text">1. Nom</span>
             <span class="value-text" style="width: 53mm;">{{ $permis->nom }}</span>
@@ -450,14 +432,13 @@
         </div>
         <div class="input-group">
             <span class="label-text">3. Date et lieu de naissance</span>
-                   <span class="value-text" style="width: 30mm;">
-                {{ \Carbon\Carbon::parse($permis->date_naissance)->format('d.m.Y') }}
+            <span class="value-text" style="width: 30mm;">
+                {{ $permis->date_de_naissance ? \Carbon\Carbon::parse($permis->date_de_naissance)->format('d.m.Y') : '' }}
             </span>
         </div>
         <div class="input-group" style="margin-top: -1mm;">
-
             <span class="value-text" style="width: 63mm;">
-                {{ $permis->lieu_de_naissance}}
+                {{ $permis->lieu_de_naissance }}
             </span>
         </div>
         <div class="input-group">
@@ -465,38 +446,32 @@
             <span class="value-text" style="width: 49mm;">{{ $permis->domicile }}</span>
         </div>
 
-        <!-- Zone Signature Titulaire et Emplacement Photo -->
         <div class="photo-signature-row">
             <div class="signature-box">
                 <span class="signature-title">Signature du Titulaire</span>
-
             </div>
 
             <div class="photo-box">
                 @if($permis->photo_du_conducteur)
-                    <img src="{{ asset('storage/'.$permis->photo_du_conducteur) }}" class="photo-img" alt="Photo">
+                    <img src="{{ public_path('storage/'.$permis->photo_du_conducteur) }}" class="photo-img" alt="Photo">
                 @else
                     <div class="photo-placeholder">Photo</div>
                 @endif
             </div>
         </div>
 
-        <!-- Zone Administrative Basse (Délivrance + Directeur côte à côte) -->
         <div class="bottom-administrative-zone">
-
-            <!-- Bloc Délivrance à gauche -->
             <div class="delivery-authority-section">
                 <span>5. Délivré par Le Chef du<br>Centre d'Immatriculation</span>
-
                 <div class="delivery-grid">
                     <div class="delivery-row">
                         <span class="delivery-label">A</span>
-                        <span class="delivery-value">{{ $permis->centre_d_emission}}</span>
+                        <span class="delivery-value">{{ $permis->centre_d_emission }}</span>
                     </div>
                     <div class="delivery-row">
                         <span class="delivery-label">Le</span>
                         <span class="delivery-value">
-                            {{ \Carbon\Carbon::parse($permis->date_d_emission)->format('d.m.Y') }}
+                            {{ $permis->date_d_emission ? \Carbon\Carbon::parse($permis->date_d_emission)->format('d.m.Y') : '' }}
                         </span>
                     </div>
                     <div class="delivery-row">
@@ -506,7 +481,6 @@
                 </div>
             </div>
 
-            <!-- Bloc Directeur à droite (avec espace blanc préservé dessous) -->
             <div class="stamp-authority-box">
                 <div class="stamp-title-italic">Signature et sceau de l'autorité</div>
                 <div class="stamp-authority-title">
@@ -514,13 +488,13 @@
                     DES ROUTES ET DES<br>
                     TRANSPORTS ROUTIERS
                 </div>
-
-                <!-- Espace libre pour accueillir l'image ou rester vide pour impression -->
+                {{-- NOM DU DIRECTEUR GENERAL - CENTRÉ en bas de la case --}}
+                <div class="directeur-name">
+                    {{ $permis->nom_du_directeur_general }}
+                </div>
             </div>
-
         </div>
 
-        <!-- Identifiant de sécurité MeScan en dehors ou intégré discrètement -->
         <div class="mescan-security-footer">
             <span>SYSTEME NUMERIQUE MESCAN</span>
             <span>UUID: {{ substr($permis->uuid, 0, 10) }}...</span>
@@ -529,9 +503,7 @@
 
     <div class="spacer"></div>
 
-    <!-- =========================================================================
-         VOLET CENTRAL : Descriptions des catégories (Inchangé)
-         ========================================================================= -->
+    {{-- VOLET CENTRAL --}}
     <div class="panel-center">
         <div class="center-header">
             CATEGORIE DE VEHICULES<br>
@@ -539,93 +511,29 @@
         </div>
 
         <table class="categories-table">
-            <tr class="category-row">
-                <td class="category-letter">A</td>
-                <td class="category-description-container">
-                    Motocyclette avec sans side-car à moteur<br>Des plus 125 cm³
-                    @if($permis->categorie === 'A' || (is_array($permis->categories) && in_array('A', $permis->categories)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">A1</td>
-                <td class="category-description-container">
-                    Vélomoteur et véhicules à moteur de cylindrée<br>50 cm³ sans excéder 125 cm³
-                    @if($permis->categorie === 'A1' || (is_array($permis->categories_obtenues) && in_array('A1', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">A2</td>
-                <td class="category-description-container">
-                    Cyclomoteur et véhicules pourvus d'un moteur<br>dont la cylindrée ne dépasse pas 50 cm³
-                    @if($permis->categorie === 'A2' || (is_array($permis->categories_obtenues) && in_array('A2', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">B</td>
-                <td class="category-description-container">
-                    Véhicule de moins de 10 places et d'un poids total<br>autorisé en charge n'excédant pas 3.500 kgs
-                    @if($permis->categorie === 'B' || (is_array($permis->categories_obtenues) && in_array('B', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">C</td>
-                <td class="category-description-container">
-                    Véhicule affecté au transport des marchandises ou<br>de matériel de plus de 3.500 kgs PTAC
-                    @if($permis->categorie === 'C' || (is_array($permis->categories_obtenues) && in_array('C', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">D</td>
-                <td class="category-description-container">
-                    Véhicule affecté au transport des personnes et<br>Comportant plus de 9 places assises
-                    @if($permis->categorie === 'D' || (is_array($permis->categories_obtenues) && in_array('D', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">E</td>
-                <td class="category-description-container">
-                    Véhicules des catégories BCD ou F attelés d'une<br>remorque de plus de 750 kgs de PTAC
-                    @if($permis->categorie === 'E' || (is_array($permis->categories_obtenues) && in_array('E', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
-
-            <tr class="category-row">
-                <td class="category-letter">F</td>
-                <td class="category-description-container">
-                    Véhicules de catégorie A, A1, A2, ou B<br>spécialement aménagés
-                    @if($permis->categorie === 'F' || (is_array($permis->categories_obtenues) && in_array('F', $permis->categories_obtenues)))
-                        <span class="incrusted-permit-number">N° {{ $permis->numero_du_permis }} &nbsp;&nbsp;&nbsp; COMORES</span>
-                    @endif
-                </td>
-            </tr>
+            @foreach($categoriesCodes as $code)
+                @php
+                    $isObtained = in_array($code, $obtainedCategories);
+                @endphp
+                <tr class="category-row">
+                    <td class="category-letter">{{ $code }}</td>
+                    <td class="category-description-container">
+                        {!! $descriptions[$code] !!}
+                        @if($isObtained)
+                            <div class="incrusted-permit-number">
+                                <span>N° {{ $permis->numero_du_permis }}</span>
+                                <span>COMORES</span>
+                            </div>
+                        @endif
+                    </td>
+                </tr>
+            @endforeach
         </table>
     </div>
 
     <div class="spacer"></div>
 
-    <!-- =========================================================================
-         VOLET DROIT : Validité et cachets de validation (Inchangé)
-         ========================================================================= -->
+    {{-- VOLET DROIT --}}
     <div class="panel-right">
         <div class="right-header">
             <div class="header-type-block">
@@ -640,39 +548,44 @@
             </div>
         </div>
 
-        @php
-            $categoriesCodes = ['A', 'A1', 'A2', 'B', 'C', 'D', 'E', 'F'];
-            $categoriesObtenues = is_array($permis->categories_obtenues)
-                ? $permis->categories_obtenues
-                : [$permis->categorie];
-        @endphp
-
         @foreach($categoriesCodes as $code)
             @php
-                $possede = in_array($code, $categoriesObtenues);
+                $possede = in_array($code, $obtainedCategories);
+
+                // Si la catégorie est dans la liste "toujours temporaire", on force le statut temporaire
+                if (in_array($code, $alwaysTemporaryCategories)) {
+                    $isTemporary = true;
+                } else {
+                    $isTemporary = $permis->isCategoryTemporary($code);
+                }
+
+                $expiration = $permis->getCategoryExpiration($code);
+                $dateEmission = $permis->date_d_emission ? \Carbon\Carbon::parse($permis->date_d_emission)->format('d.m.Y') : '';
+                $dateExpiration = $expiration ? \Carbon\Carbon::parse($expiration)->format('d.m.Y') : '..............';
             @endphp
             <div class="validity-row">
                 <div class="validity-dates-container">
                     <div class="temporary-column">
-                        <span>Le : .................</span>
-                        <span>Valable jusqu'au : ......</span>
+                        @if($possede && $isTemporary)
+                            <span>Le : {{ $dateEmission }}</span>
+                            <span>Valable jusqu'au : {{ $dateExpiration }}</span>
+                        @else
+                            <span>Le : .................</span>
+                            <span>Valable jusqu'au : ......</span>
+                        @endif
                     </div>
 
                     <div class="permanent-column">
-                        @if($possede)
+                        @if($possede && !$isTemporary)
                             <div class="permanent-stamp">P</div>
+                        @elseif(in_array($code, ['C', 'D', 'E']))
+                            <div class="temporary-black-box"></div>
                         @endif
                     </div>
                 </div>
 
                 <div class="seal-column">
-                    @if($possede)
-                        <div class="administrative-red-seal">
-                            <span style="font-size: 2.8pt;">UNION DES COMORES</span>
-                            <div class="seal-center">MINISTÈRE</div>
-                            <span style="font-size: 2.8pt;">DES TRANSPORTS</span>
-                        </div>
-                    @endif
+                    {{-- Zone réservée pour le sceau officiel --}}
                 </div>
             </div>
         @endforeach
