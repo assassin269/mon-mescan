@@ -22,11 +22,11 @@ class permis_controller extends Controller
     {
         $permis = Permis::where('uuid', $uuid)->firstOrFail();
 
-        return Pdf::view('permis.verification', compact('permis'))
+       return Pdf::view('permis.pdf', compact('permis'))
             ->withBrowsershot(function ($browsershot) {
                 $browsershot->noSandbox()
                     ->addChromiumArguments([
-                        'disable-setuid-sandbox',
+                        'disable-s etuid-sandbox',
                         'disable-dev-shm-usage',
                     ])
                     // Indique ici le chemin vers le vrai Google Chrome de ton Windows
@@ -35,4 +35,11 @@ class permis_controller extends Controller
             ->name('permis-' . strtolower($permis->nom) . '.pdf')
             ->download();
     }
+}
+
+function testPdf($uuid){
+    $permis = Permis::where('uuid', $uuid)->firstOrFail();
+    return Pdf::view('permis.pdf', compact('permis', 'qrCodeImage'))
+        ->paperSize(210.0, 297.0) // On utilise une feuille A4 sur laquelle les cartes seront centrées
+        ->name('permis-' . $permis->numero_du_permis . '.pdf');
 }
