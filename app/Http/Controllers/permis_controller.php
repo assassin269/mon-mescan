@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Permis;
 use Illuminate\Http\Request;
 use Spatie\LaravelPdf\Facades\Pdf;
-
+use chillerlan\QRCode\QRCode;
 class permis_controller extends Controller
 {
     public function verifier($uuid)
@@ -21,12 +21,10 @@ class permis_controller extends Controller
     public function telechargerPDF($uuid)
     {
         $permis = Permis::where('uuid', $uuid)->firstOrFail();
+         $urlVerification = route('permis.verifier', ['uuid' => $permis->uuid]);
+         $qrCodeImage = (new QRCode)->render($urlVerification);
 
-<<<<<<< HEAD
-        return Pdf::view('permis.pdf', compact('permis'))
-=======
-       return Pdf::view('permis.pdf', compact('permis'))
->>>>>>> cbaf1742310436f51147576e4f4804fcd6eccfc6
+        return Pdf::view('permis.pdf', compact('permis', 'qrCodeImage'))
             ->withBrowsershot(function ($browsershot) {
                 $browsershot->noSandbox()
                     ->addChromiumArguments([
@@ -43,6 +41,8 @@ class permis_controller extends Controller
 
 function testPdf($uuid){
     $permis = Permis::where('uuid', $uuid)->firstOrFail();
+    $urlVerification = route('permis.verifier', ['uuid' => $permis->uuid]);
+    $qrCodeImage = (new QRCode)->render($urlVerification);
     return Pdf::view('permis.pdf', compact('permis', 'qrCodeImage'))
         ->paperSize(210.0, 297.0) // On utilise une feuille A4 sur laquelle les cartes seront centrées
         ->name('permis-' . $permis->numero_du_permis . '.pdf');
