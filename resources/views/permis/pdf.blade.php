@@ -16,18 +16,16 @@
             width: 297mm;
             background-color: #ffffff;
             -webkit-print-color-adjust: exact;
-
-            /* On force un empilement vertical strict */
-            display: flex;
-            flex-direction: column;
+            /* Flexbox supprimé d'ici pour éviter les conflits de rendu inter-pages */
         }
 
         /* Conteneur global pour chaque face */
         .page-container {
             width: 297mm;  /* Largeur A4 Paysage */
             height: 210mm; /* Hauteur A4 Paysage exacte */
+            position: relative; /* Sécurise les positionnements absolus (comme ton QR Code) */
 
-            /* On centre le permis à l'intérieur de sa page dédiée */
+            /* On centre le permis à l'intérieur de sa page dédiée sans casser le flux */
             display: flex;
             justify-content: center;
             align-items: center;
