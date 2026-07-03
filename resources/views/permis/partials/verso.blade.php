@@ -1,298 +1,271 @@
 <style>
-        @page {
-            size: A4 landscape;
-            margin: 0;
-        }
+    /* ============================================================
+       CONTENEUR VERSO - Dimensions exactes 231mm x 106mm
+       ============================================================ */
+    .permit-container-verso {
+        width: 231mm;
+        height: 106mm;
+        display: flex;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        padding: 5mm 4mm 5mm 6mm;
+        position: relative;
+        border: 1px solid #000;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            -webkit-print-color-adjust: exact;
-            color: #000000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    .panel-verso {
+        width: 69mm;
+        height: 96mm;
+        border: 1px solid #000;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+    }
 
-        /* --- BLOC GLOBAL DU PERMIS (Strictement 23,1 cm x 10,6 cm) --- */
-        .permit-container-verso {
-            width: 231mm;
-            height: 106mm;
-            display: flex;
-            box-sizing: border-box;
-            background-color: #ffffff; /* Couleur rose cartonné */
-            padding-top: 6mm;
-            padding-bottom: 6mm;
-            padding-left: 6mm;
-            position: relative;
-        }
+    .spacer {
+        width: 6mm;
+    }
 
-        /* --- STRUCTURE FIXE DES TROIS VOLETS (6,9 cm x 9,4 cm) --- */
-        .panel-verso {
-            width: 69mm;
-            height: 94mm;
-            border: 1px solid #000;
-            box-sizing: border-box;
-            background-color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-        }
+    .sans-serif-panel {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 600;
+    }
 
-        /* --- ESPACE STRICT ENTRE LES TABLEAUX (0,6 cm) --- */
-        .spacer {
-            width: 6mm;
-        }
+    .renewal-header {
+        height: 10mm;
+        border-bottom: 1px solid #000;
+        display: flex;
+        box-sizing: border-box;
+    }
 
-        /* =========================================================================
-           VOLETS GAUCHE & CENTRAL : Police Sans-Serif (Arial/Helvetica légèrement épaisse)
-           ========================================================================= */
-        .sans-serif-panel {
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: 600; /* Donne cet effet d'encre imprimée légèrement épaisse */
-        }
+    .header-left-title {
+        width: 47mm;
+        border-right: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-weight: bold;
+        font-size: 6.5pt;
+        line-height: 1.2;
+        padding: 0.5mm;
+        text-transform: uppercase;
+    }
 
-        .renewal-header {
-            height: 11mm;
-            border-bottom: 1px solid #000;
-            display: flex;
-            box-sizing: border-box;
-        }
+    .header-right-seal {
+        width: 21mm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 5.5pt;
+        font-weight: bold;
+        line-height: 1.1;
+        padding: 0.5mm;
+    }
 
-        .header-left-title {
-            width: 47mm;
-            border-right: 1px solid #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: bold;
-            font-size: 6.2pt;
-            line-height: 1.2;
-            padding: 0.5mm;
-            text-transform: uppercase;
-        }
+    .renewal-row {
+        height: 12.4mm;
+        border-bottom: 1px solid #000;
+        display: flex;
+        box-sizing: border-box;
+    }
 
-        .header-right-seal {
-            width: 21mm;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-size: 5.2pt;
-            font-weight: bold;
-            line-height: 1.1;
-            padding: 0.5mm;
-        }
+    .renewal-row:last-child {
+        border-bottom: none;
+    }
 
-        .renewal-row {
-            height: 13.8mm;
-            border-bottom: 1px solid #000;
-            display: flex;
-            box-sizing: border-box;
-        }
+    .renewal-dates-col {
+        width: 47mm;
+        border-right: 1px solid #000;
+        padding: 1mm 1.5mm 0.5mm 1.5mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        font-size: 6.5pt;
+        box-sizing: border-box;
+    }
 
-        .renewal-row:last-child {
-            border-bottom: none;
-        }
+    .input-line-flex {
+        display: flex;
+        align-items: flex-end;
+        width: 100%;
+        height: 3.5mm;
+    }
 
-        /* Conteneur de lignes avec alignement propre */
-        .renewal-dates-col {
-            width: 47mm;
-            border-right: 1px solid #000;
-            padding: 1.5mm 1.5mm 1mm 1.5mm;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            font-size: 6.5pt;
-            box-sizing: border-box;
-        }
+    .dotted-spacer {
+        flex: 1;
+        border-bottom: 1.5px dotted #000;
+        margin: 0 1px;
+        margin-bottom: 0.5mm;
+    }
 
-        /* Alignement parfait des textes avec leurs pointillés */
-        .input-line-flex {
-            display: flex;
-            align-items: flex-end;
-            width: 100%;
-            height: 4mm;
-        }
+    .text-cal {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
 
-        .dotted-spacer {
-            flex: 1;
-            border-bottom: 1.5px dotted #000;
-            margin: 0 1px;
-            margin-bottom: 0.5mm; /* Aligne visuellement les points avec la base du texte */
-        }
+    .renewal-seal-col {
+        width: 21mm;
+    }
 
-        .text-cal {
-            padding-left: 1px;
-            padding-right: 1px;
-        }
+    .central-block {
+        border-bottom: 1px solid #000;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .renewal-seal-col {
-            width: 21mm;
-        }
+    .central-block:last-child {
+        border-bottom: none;
+    }
 
-        /* --- VOLET CENTRAL --- */
-        .central-block {
-            border-bottom: 1px solid #000;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .block-restrictive {
+        height: 19mm;
+        padding: 2mm 1.5mm 0 1.5mm;
+        justify-content: flex-start;
+    }
 
-        .central-block:last-child {
-            border-bottom: none;
-        }
+    .block-prolongation {
+        height: 46mm;
+        padding: 3.5mm 1.5mm 0 1.5mm;
+        justify-content: flex-start;
+        text-align: center;
+    }
 
-        .block-restrictive {
-            height: 21mm;
-            padding: 2mm 1.5mm 0 1.5mm;
-            justify-content: flex-start;
-        }
+    .block-mentions {
+        height: 19mm;
+        padding: 2mm 1.5mm 0 1.5mm;
+        justify-content: flex-start;
+    }
 
-        .block-prolongation {
-            height: 50mm;
-            padding: 3.5mm 1.5mm 0 1.5mm;
-            justify-content: flex-start;
-            text-align: center;
-        }
+    .block-title-verso {
+        font-size: 7.5pt;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        font-weight: bold;
+    }
 
-        .block-mentions {
-            height: 21mm;
-            padding: 2mm 1.5mm 0 1.5mm;
-            justify-content: flex-start;
-        }
+    .prolongation-title {
+        font-weight: bold;
+        font-size: 8.5pt;
+        text-transform: uppercase;
+        margin-bottom: 1.5mm;
+        letter-spacing: 0.3px;
+    }
 
-        .block-title-verso {
-            font-size: 7.2pt;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
+    .prolongation-body {
+        font-size: 7.5pt;
+        line-height: 1.4;
+        letter-spacing: 0.1px;
+    }
 
-        .prolongation-title {
-            font-weight: bold;
-            font-size: 8.5pt;
-            text-transform: uppercase;
-            margin-bottom: 2mm;
-            letter-spacing: 0.3px;
-        }
+    .dynamic-value-verso {
+        font-size: 7pt;
+        font-weight: normal;
+        color: #000000;
+        margin-top: 1mm;
+        text-align: center;
+        width: 100%;
+        word-break: break-word;
+    }
 
-        .prolongation-body {
-            font-size: 7.5pt;
-            line-height: 1.4;
-            letter-spacing: 0.1px;
-        }
+    .serif-panel {
+        font-family: "Times New Roman", Times, serif;
+    }
 
-        /* Style dédié pour le texte dynamique pour ne pas casser la hauteur fixe */
-        .dynamic-value-verso {
-            font-size: 7pt;
-            font-weight: normal;
-            color: #000000;
-            margin-top: 1mm;
-            text-align: center;
-            width: 100%;
-            word-break: break-word;
-        }
+    .panel-right-cover {
+        padding: 5mm 2mm;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        height: 100%;
+    }
 
-        /* =========================================================================
-           VOLET DROIT : Maintien de la police d'État (Times New Roman)
-           ========================================================================= */
-        .serif-panel {
-            font-family: "Times New Roman", Times, serif;
-        }
+    .cover-top {
+        width: 100%;
+    }
 
-        .panel-right-cover {
-            padding: 5mm 2mm;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            box-sizing: border-box;
-            height: 100%;
-        }
+    .cover-country {
+        font-weight: bold;
+        font-size: 11pt;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5mm;
+    }
 
-        .cover-top {
-            width: 100%;
-        }
+    .cover-motto {
+        font-style: italic;
+        font-size: 6.5pt;
+        margin-bottom: 0.5mm;
+    }
 
-        .cover-country {
-            font-weight: bold;
-            font-size: 11pt;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5mm;
-        }
+    .cover-stars {
+        font-size: 6pt;
+        letter-spacing: 2px;
+        margin-bottom: 2mm;
+    }
 
-        .cover-motto {
-            font-style: italic;
-            font-size: 6.5pt;
-            margin-bottom: 0.5mm;
-        }
+    .cover-ministry {
+        font-weight: bold;
+        font-size: 8.5pt;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+        padding: 1.5mm 0;
+        text-transform: uppercase;
+        letter-spacing: 0.2px;
+    }
 
-        .cover-stars {
-            font-size: 6pt;
-            letter-spacing: 2px;
-            margin-bottom: 2.5mm;
-        }
+    .cover-qrcode-absolute {
+        position: absolute;
+        top: 28mm;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 18mm;
+        height: 18mm;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
 
-        .cover-ministry {
-            font-weight: bold;
-            font-size: 8.5pt;
-            border-top: 1px solid #000;
-            border-bottom: 1px solid #000;
-            padding: 1.5mm 0;
-            text-transform: uppercase;
-            letter-spacing: 0.2px;
-        }
+    .cover-qrcode-img {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        background-color: #ffffff;
+        padding: 0.5mm;
+        border: 1px solid #000;
+        box-sizing: border-box;
+    }
 
-        /* QR Code MeScan Absolu */
-        .cover-qrcode-absolute {
-            position: absolute;
-            top: 29mm;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 19mm;
-            height: 19mm;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
+    .cover-middle {
+        margin-top: 5mm;
+    }
 
-        .cover-qrcode-img {
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-            background-color: #ffffff;
-            padding: 0.5mm;
-            border: 1px solid #000;
-            box-sizing: border-box;
-        }
+    .cover-main-title {
+        font-weight: bold;
+        font-size: 19pt;
+        letter-spacing: 0.5px;
+        line-height: 1.2;
+    }
 
-        .cover-middle {
-            margin-top: 6mm;
-        }
+    .cover-footer {
+        width: 100%;
+        text-align: left;
+        padding-left: 2mm;
+        font-weight: bold;
+        font-size: 9pt;
+    }
+</style>
 
-        .cover-main-title {
-            font-weight: bold;
-            font-size: 19pt;
-            letter-spacing: 0.5px;
-            line-height: 1.2;
-        }
-
-        .cover-footer {
-            width: 100%;
-            text-align: left;
-            padding-left: 2mm;
-            font-weight: bold;
-            font-size: 9pt;
-        }
-    </style>
-    <div class="permit-container-verso">
+<div class="permit-container-verso">
 
     <div class="panel-verso sans-serif-panel">
         <div class="renewal-header">
@@ -383,7 +356,7 @@
         <div class="central-block block-restrictive">
             <span class="block-title-verso">Conditions restrictives d'usage</span>
             <div class="dynamic-value-verso">
-                {{ $permit->restrictions ?? 'NEANT' }}
+                {{ $permis->conditions_restrictives_d_usage ?? 'NEANT' }}
             </div>
         </div>
 
@@ -398,7 +371,7 @@
         <div class="central-block block-mentions">
             <span class="block-title-verso">Mentions additionnelles éventuelles</span>
             <div class="dynamic-value-verso">
-                {{ $permit->additional_mentions ?? 'NEANT' }}
+                {{ $permis->mentions_additionnelles ?? 'NEANT' }}
             </div>
         </div>
     </div>
@@ -433,7 +406,7 @@
             </div>
 
             <div class="cover-footer">
-                <span>{{ $permit->serie ?? 'SERIE A' }}</span>
+                <span>{{ $permis->serie ?? 'SERIE A' }}</span>
             </div>
         </div>
 
