@@ -1,393 +1,56 @@
 <style>
-    /* ============================================================
-       CONTENEUR PRINCIPAL - Dimensions exactes 231mm x 106mm
-       ============================================================ */
-    .permit-container {
-        width: 231mm;
-        height: 106mm;
-        display: flex;
-        box-sizing: border-box;
-        background-color: #ffffff;
-        padding: 5mm 4mm 5mm 6mm;
-        position: relative;
-        font-family: Arial, sans-serif;
-        font-size: 9pt;
-        color: #111827;
-        -webkit-print-color-adjust: exact;
-        border: 1px solid #000;
-    }
+    /* STYLES DES CONTENEURS ET DU PANNEAU GAUCHE */
+    .permit-container { width: 231mm; height: 106mm; display: flex; box-sizing: border-box; background-color: #ffffff; padding: 6mm 0 6mm 6mm; position: relative; font-family: Arial, sans-serif; font-size: 7.5pt; color: #111827; -webkit-print-color-adjust: exact; }
+    .panel-left { width: 69mm; height: 94mm; border: 1px solid #000; box-sizing: border-box; padding: 2mm; display: flex; flex-direction: column; position: relative; }
+    .input-group { margin-bottom: 2mm; font-size: 7.5pt; line-height: 1.2; }
+    .label-text { font-weight: normal; color: #000; }
+    .value-text { font-weight: bold; text-transform: uppercase; font-family: "Courier New", Courier, monospace; font-size: 8.5pt; border-bottom: 1px dotted #374151; padding-left: 1mm; display: inline-block; }
+    .photo-signature-row { display: flex; justify-content: space-between; margin-top: 1mm; height: 28mm; border-bottom: 1px solid #000; padding-bottom: 2mm; }
+    .signature-box { width: 35mm; height: 26mm; font-size: 7pt; position: relative; box-sizing: border-box; }
+    .signature-box .signature-title { display: block; margin-bottom: 1mm; }
+    .photo-box { width: 26mm; height: 26mm; border: 1px solid #000; background-color: rgba(255, 255, 255, 0.3); text-align: center; position: relative; box-sizing: border-box; }
+    .photo-box .photo-img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-box .photo-placeholder { line-height: 26mm; color: #374151; font-size: 8pt; }
+    .bottom-administrative-zone { display: flex; justify-content: space-between; margin-top: 2mm; flex-grow: 1; }
+    .delivery-authority-section { width: 34mm; font-size: 6.8pt; line-height: 1.2; }
+    .delivery-grid { margin-top: 1mm; }
+    .delivery-row { display: flex; align-items: baseline; margin-bottom: 1mm; }
+    .delivery-label { width: 5mm; }
+    .delivery-value { font-weight: bold; font-family: "Courier New", Courier, monospace; border-bottom: 1px dotted #000; flex-grow: 1; padding-left: 0.5mm; font-size: 7.5pt; }
+    .stamp-authority-box { width: 30mm; text-align: center; position: relative; display: flex; flex-direction: column; justify-content: flex-start; box-sizing: border-box; height: 100%; }
+    .stamp-title-italic { font-size: 6pt; font-style: italic; margin-bottom: 1mm; }
+    .stamp-authority-title { font-weight: bold; font-size: 5.8pt; line-height: 1.1; }
+    .directeur-name { font-weight: bold; font-size: 6pt; text-transform: uppercase; margin-top: auto; padding-top: 1mm; text-align: center; width: 100%; display: block; }
+    .mescan-security-footer { position: absolute; bottom: -4mm; left: 0; width: 65mm; display: flex; justify-content: space-between; align-items: center; font-size: 5pt; color: #1f2937; font-family: monospace; border-top: 0.5px dashed rgba(0, 0, 0, 0.3); padding-top: 0.5mm; }
+    .spacer { width: 6mm; }
 
-    /* ============================================================
-       PANNEAU GAUCHE - 69mm x 96mm (avec marges)
-       ============================================================ */
-    .panel-left {
-        width: 69mm;
-        height: 96mm;
-        border: 1px solid #000;
-        box-sizing: border-box;
-        padding: 2.5mm;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-    }
+    /* PANNEAU CENTRAL */
+    .panel-center { width: 69mm; height: 94mm; border: 1px solid #000; box-sizing: border-box; display: flex; flex-direction: column; background-color: #ffffff; }
+    .center-header { text-align: center; font-weight: bold; font-size: 6.5pt; line-height: 1.2; padding: 1mm; border-bottom: 1px solid #000; height: 9mm; box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
+    .categories-table { width: 100%; border-collapse: collapse; flex-grow: 1; }
+    .category-row { border-bottom: 1px solid #000; height: 10.625mm; }
+    .category-row:last-child { border-bottom: none; }
+    .category-letter { width: 8mm; font-weight: bold; font-size: 11pt; text-align: center; border-right: 1px solid #000; vertical-align: middle; }
+    .category-description-container { padding: 0.5mm 1.5mm; font-size: 5.8pt; line-height: 1.1; vertical-align: top; position: relative; }
+    .incrusted-permit-number { display: flex; justify-content: space-between; width: 100%; margin-top: 0.5mm; font-family: "Courier New", Courier, monospace; font-weight: bold; font-size: 7.5pt; color: #000; }
 
-    .input-group {
-        margin-bottom: 1.8mm;
-        font-size: 9pt;
-        line-height: 1.3;
-    }
-
-    .label-text {
-        font-weight: bold;
-        color: #000;
-        font-size: 9pt;
-    }
-
-    .value-text {
-        font-weight: bold;
-        text-transform: uppercase;
-        font-family: "Courier New", Courier, monospace;
-        font-size: 9.5pt;
-        border-bottom: 1px dotted #374151;
-        padding-left: 0.5mm;
-        display: inline-block;
-    }
-
-    .photo-signature-row {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 0.5mm;
-        height: 28mm;
-        border-bottom: 1px solid #000;
-        padding-bottom: 1.5mm;
-    }
-
-    .signature-box {
-        width: 35mm;
-        height: 26mm;
-        font-size: 8pt;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .signature-box .signature-title {
-        display: block;
-        margin-bottom: 0.5mm;
-        font-weight: bold;
-        font-size: 8pt;
-    }
-
-    .photo-box {
-        width: 26mm;
-        height: 26mm;
-        border: 1px solid #000;
-        background-color: rgba(255, 255, 255, 0.3);
-        text-align: center;
-        position: relative;
-        box-sizing: border-box;
-    }
-
-    .photo-box .photo-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .photo-box .photo-placeholder {
-        line-height: 26mm;
-        color: #374151;
-        font-size: 9pt;
-    }
-
-    .bottom-administrative-zone {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 1mm;
-        flex-grow: 1;
-    }
-
-    .delivery-authority-section {
-        width: 34mm;
-        font-size: 8pt;
-        line-height: 1.3;
-    }
-
-    .delivery-grid {
-        margin-top: 0.5mm;
-    }
-
-    .delivery-row {
-        display: flex;
-        align-items: baseline;
-        margin-bottom: 0.8mm;
-    }
-
-    .delivery-label {
-        width: 5mm;
-        font-weight: bold;
-        font-size: 8pt;
-    }
-
-    .delivery-value {
-        font-weight: bold;
-        font-family: "Courier New", Courier, monospace;
-        border-bottom: 1px dotted #000;
-        flex-grow: 1;
-        padding-left: 0.5mm;
-        font-size: 8.5pt;
-    }
-
-    .stamp-authority-box {
-        width: 30mm;
-        text-align: center;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        box-sizing: border-box;
-        height: 100%;
-    }
-
-    .stamp-title-italic {
-        font-size: 7pt;
-        font-style: italic;
-        margin-bottom: 0.5mm;
-    }
-
-    .stamp-authority-title {
-        font-weight: bold;
-        font-size: 7pt;
-        line-height: 1.2;
-    }
-
-    .directeur-name {
-        font-weight: bold;
-        font-size: 7.5pt;
-        text-transform: uppercase;
-        margin-top: auto;
-        padding-top: 0.5mm;
-        text-align: center;
-        width: 100%;
-        display: block;
-    }
-
-    .mescan-security-footer {
-        position: absolute;
-        bottom: -4mm;
-        left: 0;
-        width: 65mm;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 5.5pt;
-        color: #1f2937;
-        font-family: monospace;
-        border-top: 0.5px dashed rgba(0, 0, 0, 0.3);
-        padding-top: 0.5mm;
-    }
-
-    .spacer {
-        width: 6mm;
-    }
-
-    /* ============================================================
-       PANNEAU CENTRAL - 69mm x 96mm
-       ============================================================ */
-    .panel-center {
-        width: 69mm;
-        height: 96mm;
-        border: 1px solid #000;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        background-color: #ffffff;
-    }
-
-    .center-header {
-        text-align: center;
-        font-weight: bold;
-        font-size: 8pt;
-        line-height: 1.2;
-        padding: 0.5mm;
-        border-bottom: 1px solid #000;
-        height: 10mm;
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .categories-table {
-        width: 100%;
-        border-collapse: collapse;
-        flex-grow: 1;
-    }
-
-    .category-row {
-        border-bottom: 1px solid #000;
-        height: 10.75mm;
-    }
-
-    .category-row:last-child {
-        border-bottom: none;
-    }
-
-    .category-letter {
-        width: 8mm;
-        font-weight: bold;
-        font-size: 13pt;
-        text-align: center;
-        border-right: 1px solid #000;
-        vertical-align: middle;
-    }
-
-    .category-description-container {
-        padding: 0.5mm 1.5mm;
-        font-size: 7pt;
-        line-height: 1.1;
-        vertical-align: top;
-        position: relative;
-    }
-
-    .incrusted-permit-number {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        margin-top: 0.3mm;
-        font-family: "Courier New", Courier, monospace;
-        font-weight: bold;
-        font-size: 8.5pt;
-        color: #000;
-    }
-
-    /* ============================================================
-       PANNEAU DROIT - 69mm x 96mm
-       ============================================================ */
-    .panel-right {
-        width: 69mm;
-        height: 96mm;
-        border: 1px solid #000;
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        background-color: #ffffff;
-    }
-
-    .right-header {
-        height: 10mm;
-        border-bottom: 1px solid #000;
-        display: flex;
-        box-sizing: border-box;
-    }
-
-    .header-type-block {
-        width: 47mm;
-        border-right: 1px solid #000;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        font-weight: bold;
-        font-size: 7pt;
-        justify-content: space-between;
-    }
-
-    .header-main-title {
-        padding-top: 0.5mm;
-        font-size: 7pt;
-    }
-
-    .header-sub-titles {
-        display: flex;
-        border-top: 1px solid #000;
-        font-size: 6.5pt;
-    }
-
-    .sub-title-item {
-        width: 50%;
-        padding: 0.3mm 0;
-        font-size: 6.5pt;
-    }
-
-    .sub-title-item:first-child {
-        border-right: 1px solid #000;
-    }
-
-    .header-seal-title {
-        width: 21mm;
-        text-align: center;
-        font-size: 6.5pt;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1.1;
-    }
-
-    .validity-row {
-        height: 10.75mm;
-        border-bottom: 1px solid #000;
-        display: flex;
-        box-sizing: border-box;
-    }
-
-    .validity-row:last-child {
-        border-bottom: none;
-    }
-
-    .validity-dates-container {
-        width: 47mm;
-        border-right: 1px solid #000;
-        display: flex;
-        box-sizing: border-box;
-        font-size: 6.5pt;
-    }
-
-    .temporary-column {
-        width: 50%;
-        border-right: 1px solid #000;
-        padding: 0.5mm;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        color: #374151;
-        font-size: 6.5pt;
-    }
-
-    .permanent-column {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        padding: 0.5mm;
-        box-sizing: border-box;
-    }
-
-    .permanent-stamp {
-        font-size: 13pt;
-        font-weight: 900;
-        color: #000;
-        border: 1.5px solid #000;
-        padding: 0.2mm 2mm;
-        border-radius: 1px;
-        transform: rotate(-3deg);
-    }
-
-    .temporary-black-box {
-        width: 100%;
-        height: 100%;
-        min-height: 7mm;
-        background-color: #000000;
-        border-radius: 1px;
-    }
-
-    .seal-column {
-        width: 21mm;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
+    /* PANNEAU DROIT */
+    .panel-right { width: 69mm; height: 94mm; border: 1px solid #000; box-sizing: border-box; display: flex; flex-direction: column; background-color: #ffffff; }
+    .right-header { height: 9mm; border-bottom: 1px solid #000; display: flex; box-sizing: border-box; }
+    .header-type-block { width: 47mm; border-right: 1px solid #000; display: flex; flex-direction: column; text-align: center; font-weight: bold; font-size: 6pt; justify-content: space-between; }
+    .header-main-title { padding-top: 0.5mm; }
+    .header-sub-titles { display: flex; border-top: 1px solid #000; font-size: 5.5pt; }
+    .sub-title-item { width: 50%; padding: 0.3mm 0; }
+    .sub-title-item:first-child { border-right: 1px solid #000; }
+    .header-seal-title { width: 21mm; text-align: center; font-size: 5.5pt; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1.1; }
+    .validity-row { height: 10.625mm; border-bottom: 1px solid #000; display: flex; box-sizing: border-box; }
+    .validity-row:last-child { border-bottom: none; }
+    .validity-dates-container { width: 47mm; border-right: 1px solid #000; display: flex; box-sizing: border-box; font-size: 5.5pt; }
+    .temporary-column { width: 50%; border-right: 1px solid #000; padding: 0.5mm; display: flex; flex-direction: column; justify-content: space-between; color: #374151; }
+    .permanent-column { width: 50%; display: flex; align-items: center; justify-content: center; position: relative; padding: 1mm; box-sizing: border-box; }
+    .permanent-stamp { font-size: 11pt; font-weight: 900; color: #000; border: 1.5px solid #000; padding: 0.2mm 2mm; border-radius: 1px; transform: rotate(-3deg); }
+    .temporary-black-box { width: 100%; height: 100%; min-height: 8mm; background-color: #000000; border-radius: 1px; }
+    .seal-column { width: 21mm; display: flex; align-items: center; justify-content: center; position: relative; }
 </style>
 
 @php
@@ -442,12 +105,18 @@
                     <div class="delivery-row"><span class="delivery-label">N°</span><span class="delivery-value">{{ $permis->numero_du_permis }}</span></div>
                 </div>
             </div>
+
             <div class="stamp-authority-box">
                 <div class="stamp-title-italic">Signature et sceau de l'autorité</div>
-                <div class="stamp-authority-title">LE DIRECTEUR GENERAL<br>DES ROUTES ET DES<br>TRANSPORTS ROUTIERS</div>
-                <div class="directeur-name">{{ $permis->nom_du_directeur_general }}</div>
+                <div class="stamp-authority-title">LE DIRECTEUR GENERAL<br>DES INFRASTRUCTURES</div>
+                <div class="signature-director-placeholder"></div>
             </div>
         </div>
+
+        <div class="directeur-name-footer">
+            {{ $permis->nom_du_directeur_general }}
+        </div>
+
         <div class="mescan-security-footer"><span>SYSTEME NUMERIQUE MESCAN</span><span>UUID: {{ substr($permis->uuid, 0, 10) }}...</span></div>
     </div>
 
