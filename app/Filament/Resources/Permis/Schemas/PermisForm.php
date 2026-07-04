@@ -97,7 +97,10 @@ class PermisForm
                                     })
                                     ->disabled(function (Get $get) {
                                         $categorieId = $get('categorie_id');
-                                        return in_array($categorieId, ['C', 'D', 'E']);
+                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
+                                            return 'Temporaire';
+                                        }
+                                        
                                     })
                                     ->hint(function (Get $get) {
                                         $categorieId = $get('categorie_id');
@@ -106,6 +109,7 @@ class PermisForm
                                         }
                                         return null;
                                     }),
+
 
                                 DatePicker::make('date_d_expiration')
                                     ->label("Date d'expiration")

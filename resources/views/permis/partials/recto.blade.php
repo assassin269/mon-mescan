@@ -29,7 +29,7 @@
     }
 
     .input-group {
-        margin-bottom: 2mm;
+        margin-bottom: 1.2mm;
         font-size: 8.5pt;
         line-height: 1.2;
     }
@@ -50,16 +50,32 @@
         display: flex;
         justify-content: space-between;
         margin-top: 1mm;
-        height: 28mm;
+        height: 33mm;
         border-bottom: 1px solid #000;
-        padding-bottom: 2mm;
+        padding-bottom: 1mm;
     }
-    .signature-box { width: 35mm; height: 26mm; font-size: 8pt; position: relative; box-sizing: border-box; }
+    /* Largeur réduite à 30mm pour laisser la photo s'étendre vers la gauche */
+    .signature-box {
+        width: 30mm;
+        height: 32mm;
+        font-size: 8pt;
+        position: relative;
+        box-sizing: border-box;
+    }
     .signature-box .signature-title { display: block; margin-bottom: 1mm; }
 
-    .photo-box { width: 26mm; height: 26mm; border: 1px solid #000; background-color: rgba(255, 255, 255, 0.3); text-align: center; position: relative; box-sizing: border-box; }
+    /* Largeur augmentée à 30mm pour étirer la photo vers la gauche */
+    .photo-box {
+        width: 30mm;
+        height: 32mm;
+        border: 1px solid #000;
+        background-color: rgba(255, 255, 255, 0.3);
+        text-align: center;
+        position: relative;
+        box-sizing: border-box;
+    }
     .photo-box .photo-img { width: 100%; height: 100%; object-fit: cover; }
-    .photo-box .photo-placeholder { line-height: 26mm; color: #374151; font-size: 9pt; }
+    .photo-box .photo-placeholder { line-height: 32mm; color: #374151; font-size: 9pt; }
 
     /* Zone administrative basse */
     .bottom-administrative-zone {
@@ -134,7 +150,6 @@
         height: 10.625mm;
         box-sizing: border-box;
     }
-    /* Garde la ligne basse tracée proprement à l'intérieur du conteneur */
     .category-row:last-child {
         border-bottom: 1px solid #000;
     }
@@ -147,7 +162,6 @@
         vertical-align: middle;
     }
 
-    /* Légère réduction de l'espace vertical pour faire respirer la ligne F */
     .category-description-container {
         padding: 0.3mm 1mm 0.3mm 1.5mm;
         font-size: 6.5pt;

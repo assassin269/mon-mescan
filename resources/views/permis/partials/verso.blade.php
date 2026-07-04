@@ -389,7 +389,7 @@
             <div class="central-block block-restrictive">
                 <span class="block-title-verso">Conditions restrictives d'usage</span>
                 <div class="dynamic-value-verso">
-                    {{ $permis->restrictions }}
+                    {{ $permis->conditions_restrictives_d_usage }}
                 </div>
             </div>
 
@@ -404,7 +404,7 @@
             <div class="central-block block-mentions">
                 <span class="block-title-verso">Mentions additionnelles éventuelles</span>
                 <div class="dynamic-value-verso">
-                    {{ $permis->additional_mentions }}
+                    {{ $permis->mentions_additionnelles }}
                 </div>
             </div>
         </div>
@@ -440,11 +440,11 @@
                 </div>
 
                 <div class="cover-footer">
-                    <span>{{ 'SERIE'.$permis->serie}}</span>
+                    <span>{{ 'SERIE '.$permis->serie}}</span>
                 </div>
             </div>
 
-        </div>   
+        </div>
 
     </div>
 </div>
