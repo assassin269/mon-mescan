@@ -82,33 +82,33 @@ class PermisForm
                                     }),
 
                                 Select::make('statut')
-                                    ->options([
-                                        'Permanent' => 'Permanent',
-                                        'Temporaire' => 'Temporaire',
-                                    ])
-                                    ->required()
-                                    ->live()
-                                    ->default(function (Get $get) {
-                                        $categorieId = $get('categorie_id');
-                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
-                                            return 'Temporaire';
-                                        }
-                                        return 'Permanent';
-                                    })
-                                    ->disabled(function (Get $get) {
-                                        $categorieId = $get('categorie_id');
-                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
-                                            return 'Temporaire';
-                                        }
-                                        
-                                    })
-                                    ->hint(function (Get $get) {
-                                        $categorieId = $get('categorie_id');
-                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
-                                            return '⛔ Cette catégorie est obligatoirement temporaire';
-                                        }
-                                        return null;
-                                    }),
+    ->options([
+        'Permanent' => 'Permanent',
+        'Temporaire' => 'Temporaire',
+    ])
+    ->required()
+    ->live()
+    ->default(function (Get $get) {
+        $categorieId = $get('categorie_id');
+        if (in_array($categorieId, ['C', 'D', 'E'])) {
+            return 'Temporaire';
+        }
+        return 'Permanent';
+    })
+    // FIX 1 : Force Filament à envoyer la valeur dans la base de données même si le champ est désactivé
+    ->dehydrated()
+    // FIX 2 : On retourne un vrai booléen (true ou false)
+    ->disabled(function (Get $get) {
+        $categorieId = $get('categorie_id');
+        return in_array($categorieId, ['C', 'D', 'E']);
+    })
+    ->hint(function (Get $get) {
+        $categorieId = $get('categorie_id');
+        if (in_array($categorieId, ['C', 'D', 'E'])) {
+            return '⛔ Cette catégorie est obligatoirement temporaire';
+        }
+        return null;
+    }),
 
 
                                 DatePicker::make('date_d_expiration')
