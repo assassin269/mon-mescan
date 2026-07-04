@@ -4,7 +4,10 @@ namespace App\Filament\Resources\Permis\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction; // Utilisé pour le bouton d'édition
+use Filament\Actions\DeleteAction;        // Pour DeleteAction::make()
+use Filament\Actions\EditAction;          // Pour EditAction::make()
+use Filament\Actions\Action;
+use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -55,36 +58,52 @@ class PermisTable
             ->filters([
                 //
             ])
-            // 1. Cette action définit ce qui se passe quand on clique sur la ligne (on garde la modification)
             ->recordActions([
                 EditAction::make(),
             ])
-            // 2. C'est ICI qu'on génère la vraie colonne de boutons indépendants en bout de ligne !
             ->actions([
-                // Le bouton Modifier
-                EditAction::make(),
+                // ============================================================
+                // 1. BOUTON "VOIR" (Œil) - Slide-Over avec aperçu recto + verso
+                // ============================================================
+                Action::make('voir')
+                    ->label('Voir')
+                    ->color('success')
+                    ->icon('heroicon-m-eye')
+                    ->modalHeading('Aperçu du Permis')
+                    ->modalContent(function ($record) {
+                        return view('permis.partials.preview', ['permis' => $record]);
+                    })
+                    ->modalWidth(Width::SevenExtraLarge)
+                    ->slideOver(),
 
-            // 2. Le bouton PDF avec la couleur 'info' (Bleu vif professionnel)
-                \Filament\Actions\Action::make('telecharger_pdf')
+                // ============================================================
+                // 2. BOUTON "MODIFIER" (Edit)
+                // ============================================================
+                EditAction::make()
+                    ->color('warning'),
+
+                // ============================================================
+                // 3. BOUTON "PDF" (Télécharger)
+                // ============================================================
+                Action::make('telecharger_pdf')
                     ->label('PDF')
-                    ->color('info') // Utilisation de 'info' (bleu vif reconnu par Filament)
-                    ->icon('heroicon-m-arrow-down-tray') // Icône moderne de téléchargement
+                    ->color('info')
+                    ->icon('heroicon-m-arrow-down-tray')
                     ->requiresConfirmation()
-
-                    // --- DESIGN DE LA BOÎTE D'ALERTE (MODAL) ---
                     ->modalHeading('Téléchargement du Document')
                     ->modalDescription('Voulez-vous vraiment générer et télécharger le PDF de ce permis ?')
-                    ->modalIcon('heroicon-o-arrow-down-tray') // Rappel de l'icône en haut de la boîte
-                    ->modalIconColor('info') // L'icône de la boîte s'allume en bleu vif
-                    ->modalSubmitActionLabel('télécharger')
-                    ->modalSubmitAction(fn ($action) => $action->color('info')) // Le bouton de validation devient bleu vif
+                    ->modalIcon('heroicon-o-arrow-down-tray')
+                    ->modalIconColor('info')
+                    ->modalSubmitActionLabel('Télécharger')
+                    ->modalSubmitAction(fn ($action) => $action->color('info'))
                     ->modalCancelActionLabel('Annuler')
-
-                    // L'action de redirection
                     ->action(fn ($record) => redirect()->to(route('permis.pdf', ['uuid' => $record->uuid]))),
 
-                // Le bouton de Suppression unitaire sécurisé
-                \Filament\Actions\DeleteAction::make()
+                // ============================================================
+                // 4. BOUTON "SUPPRIMER" (Delete)
+                // ============================================================
+                DeleteAction::make()
+                    ->color('danger')
                     ->requiresConfirmation(),
             ])
             ->toolbarActions([

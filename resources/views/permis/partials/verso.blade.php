@@ -4,7 +4,8 @@
             margin: 0;
         }
 
-        body {
+        /* On isole le comportement global du verso dans sa propre classe */
+        .body-verso {
             margin: 0;
             padding: 0;
             background-color: #ffffff;
@@ -17,21 +18,21 @@
         }
 
         /* --- BLOC GLOBAL DU PERMIS (Strictement 23,1 cm x 10,6 cm) --- */
-        .permit-container-verso {
+        .body-verso .permit-container-verso {
             width: 231mm;
             height: 106mm;
             display: flex;
             box-sizing: border-box;
-            background-color: #ffffff; /* Couleur rose cartonné */
+            background-color: #ffffff;
             padding-top: 6mm;
             padding-bottom: 6mm;
             padding-left: 6mm;
             position: relative;
         }
 
-        /* --- STRUCTURE FIXE DES TROIS VOLETS (6,9 cm x 9,4 cm) --- */
-        .panel-verso {
-            width: 69mm;
+        /* --- STRUCTURE DES TROIS VOLETS (7,1 cm x 9,4 cm) --- */
+        .body-verso .panel-verso {
+            width: 71mm;
             height: 94mm;
             border: 1px solid #000;
             box-sizing: border-box;
@@ -42,101 +43,101 @@
             position: relative;
         }
 
-        /* --- ESPACE STRICT ENTRE LES TABLEAUX (0,6 cm) --- */
-        .spacer {
-            width: 6mm;
+        /* --- SÉCURISATION DU SPACER : N'impacte QUE le verso --- */
+        .body-verso .permit-container-verso .spacer {
+            width: 9mm;
         }
 
         /* =========================================================================
-           VOLETS GAUCHE & CENTRAL : Police Sans-Serif (Arial/Helvetica légèrement épaisse)
+           VOLETS GAUCHE & CENTRAL : Police Sans-Serif
            ========================================================================= */
-        .sans-serif-panel {
+        .body-verso .sans-serif-panel {
             font-family: Arial, Helvetica, sans-serif;
-            font-weight: 600; /* Donne cet effet d'encre imprimée légèrement épaisse */
+            font-weight: 600;
         }
 
-        .renewal-header {
+        .body-verso .renewal-header {
             height: 11mm;
             border-bottom: 1px solid #000;
             display: flex;
             box-sizing: border-box;
         }
 
-        .header-left-title {
-            width: 47mm;
+        .body-verso .header-left-title {
+            width: 49mm;
             border-right: 1px solid #000;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             font-weight: bold;
-            font-size: 6.2pt;
+            font-size: 7.2pt;
             line-height: 1.2;
             padding: 0.5mm;
             text-transform: uppercase;
         }
 
-        .header-right-seal {
-            width: 21mm;
+        .body-verso .header-right-seal {
+            width: 22mm;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 5.2pt;
+            font-size: 6.2pt;
             font-weight: bold;
             line-height: 1.1;
             padding: 0.5mm;
         }
 
-        .renewal-row {
+        .body-verso .renewal-row {
             height: 13.8mm;
             border-bottom: 1px solid #000;
             display: flex;
             box-sizing: border-box;
         }
 
-        .renewal-row:last-child {
+        .body-verso .renewal-row:last-child {
             border-bottom: none;
         }
 
-        /* Conteneur de lignes avec alignement propre */
-        .renewal-dates-col {
-            width: 47mm;
+        .body-verso .renewal-dates-col {
+            width: 49mm;
             border-right: 1px solid #000;
             padding: 1.5mm 1.5mm 1mm 1.5mm;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            font-size: 6.5pt;
+            font-size: 7.5pt;
             box-sizing: border-box;
         }
 
-        /* Alignement parfait des textes avec leurs pointillés */
-        .input-line-flex {
+        .body-verso .input-line-flex {
             display: flex;
             align-items: flex-end;
             width: 100%;
             height: 4mm;
         }
 
-        .dotted-spacer {
+        .body-verso .dotted-spacer {
             flex: 1;
             border-bottom: 1.5px dotted #000;
             margin: 0 1px;
-            margin-bottom: 0.5mm; /* Aligne visuellement les points avec la base du texte */
+            margin-bottom: 0.5mm;
         }
 
-        .text-cal {
+        .body-verso .text-cal {
             padding-left: 1px;
             padding-right: 1px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 8.5pt;
         }
 
-        .renewal-seal-col {
-            width: 21mm;
+        .body-verso .renewal-seal-col {
+            width: 22mm;
         }
 
         /* --- VOLET CENTRAL --- */
-        .central-block {
+        .body-verso .central-block {
             border-bottom: 1px solid #000;
             box-sizing: border-box;
             display: flex;
@@ -144,68 +145,68 @@
             align-items: center;
         }
 
-        .central-block:last-child {
+        .body-verso .central-block:last-child {
             border-bottom: none;
         }
 
-        .block-restrictive {
+        .body-verso .block-restrictive {
             height: 21mm;
             padding: 2mm 1.5mm 0 1.5mm;
             justify-content: flex-start;
         }
 
-        .block-prolongation {
-            height: 50mm;
-            padding: 3.5mm 1.5mm 0 1.5mm;
+        .body-verso .block-prolongation {
+            height: 52mm;
+            padding: 5mm 1.5mm 0 1.5mm;
             justify-content: flex-start;
             text-align: center;
         }
 
-        .block-mentions {
+        .body-verso .block-mentions {
             height: 21mm;
             padding: 2mm 1.5mm 0 1.5mm;
             justify-content: flex-start;
         }
 
-        .block-title-verso {
-            font-size: 7.2pt;
+        .body-verso .block-title-verso {
+            font-size: 8pt;
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
 
-        .prolongation-title {
+        .body-verso .prolongation-title {
             font-weight: bold;
-            font-size: 8.5pt;
+            font-size: 9.5pt;
             text-transform: uppercase;
-            margin-bottom: 2mm;
+            margin-bottom: 3mm;
             letter-spacing: 0.3px;
         }
 
-        .prolongation-body {
-            font-size: 7.5pt;
+        .body-verso .prolongation-body {
+            font-size: 8.5pt;
             line-height: 1.4;
             letter-spacing: 0.1px;
         }
 
-        /* Style dédié pour le texte dynamique pour ne pas casser la hauteur fixe */
-        .dynamic-value-verso {
-            font-size: 7pt;
-            font-weight: normal;
+        .body-verso .dynamic-value-verso {
+            font-size: 9pt;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
             color: #000000;
-            margin-top: 1mm;
+            margin-top: 2mm;
             text-align: center;
             width: 100%;
             word-break: break-word;
         }
 
         /* =========================================================================
-           VOLET DROIT : Maintien de la police d'État (Times New Roman)
+           VOLET DROIT : Couverture (Times New Roman)
            ========================================================================= */
-        .serif-panel {
+        .body-verso .serif-panel {
             font-family: "Times New Roman", Times, serif;
         }
 
-        .panel-right-cover {
+        .body-verso .panel-right-cover {
             padding: 5mm 2mm;
             text-align: center;
             display: flex;
@@ -216,32 +217,32 @@
             height: 100%;
         }
 
-        .cover-top {
+        .body-verso .cover-top {
             width: 100%;
         }
 
-        .cover-country {
+        .body-verso .cover-country {
             font-weight: bold;
-            font-size: 11pt;
+            font-size: 12pt;
             letter-spacing: 0.5px;
             margin-bottom: 0.5mm;
         }
 
-        .cover-motto {
+        .body-verso .cover-motto {
             font-style: italic;
-            font-size: 6.5pt;
+            font-size: 7.5pt;
             margin-bottom: 0.5mm;
         }
 
-        .cover-stars {
-            font-size: 6pt;
+        .body-verso .cover-stars {
+            font-size: 7pt;
             letter-spacing: 2px;
             margin-bottom: 2.5mm;
         }
 
-        .cover-ministry {
+        .body-verso .cover-ministry {
             font-weight: bold;
-            font-size: 8.5pt;
+            font-size: 9.5pt;
             border-top: 1px solid #000;
             border-bottom: 1px solid #000;
             padding: 1.5mm 0;
@@ -250,20 +251,20 @@
         }
 
         /* QR Code MeScan Absolu */
-        .cover-qrcode-absolute {
+        .body-verso .cover-qrcode-absolute {
             position: absolute;
             top: 29mm;
             left: 50%;
             transform: translateX(-50%);
-            width: 19mm;
-            height: 19mm;
+            width: 20mm;
+            height: 20mm;
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
         }
 
-        .cover-qrcode-img {
+        .body-verso .cover-qrcode-img {
             height: 100%;
             width: 100%;
             object-fit: contain;
@@ -273,25 +274,28 @@
             box-sizing: border-box;
         }
 
-        .cover-middle {
+        .body-verso .cover-middle {
             margin-top: 6mm;
         }
 
-        .cover-main-title {
+        .body-verso .cover-main-title {
             font-weight: bold;
-            font-size: 19pt;
+            font-size: 21pt;
             letter-spacing: 0.5px;
             line-height: 1.2;
         }
 
-        .cover-footer {
+        .body-verso .cover-footer {
             width: 100%;
             text-align: left;
             padding-left: 2mm;
             font-weight: bold;
-            font-size: 9pt;
+            font-size: 10pt;
         }
-    </style>
+</style>
+
+<!-- Wrapper d'isolation global -->
+<div class="body-verso">
     <div class="permit-container-verso">
 
         <!-- VOLET INTERIEUR GAUCHE : RENOUVELLEMENTS -->
@@ -380,13 +384,15 @@
 
         <div class="spacer"></div>
 
-    <div class="panel-verso sans-serif-panel">
-        <div class="central-block block-restrictive">
-            <span class="block-title-verso">Conditions restrictives d'usage</span>
-            <div class="dynamic-value-verso">
-                {{ $permit->restrictions ?? 'NEANT' }}
+        <!-- VOLET INTERIEUR CENTRAL : RESTRICTIONS ET PROLONGATIONS -->
+        <div class="panel-verso sans-serif-panel">
+            <div class="central-block block-restrictive">
+                <span class="block-title-verso">Conditions restrictives d'usage</span>
+                <div class="dynamic-value-verso">
+                    {{ $permis->restrictions }}
+                    {{ $permis->conditions_restrictives_d_usage }}
+                </div>
             </div>
-        </div>
 
             <div class="central-block block-prolongation">
                 <div class="prolongation-title">Prolongation des permis</div>
@@ -396,13 +402,14 @@
                 </div>
             </div>
 
-        <div class="central-block block-mentions">
-            <span class="block-title-verso">Mentions additionnelles éventuelles</span>
-            <div class="dynamic-value-verso">
-                {{ $permit->additional_mentions ?? 'NEANT' }}
+            <div class="central-block block-mentions">
+                <span class="block-title-verso">Mentions additionnelles éventuelles</span>
+                <div class="dynamic-value-verso">
+                    {{ $permis->additional_mentions }}
+                    {{ $permis->mentions_additionnelles }}
+                </div>
             </div>
         </div>
-    </div>
 
         <div class="spacer"></div>
 
@@ -434,10 +441,13 @@
                     </div>
                 </div>
 
-            <div class="cover-footer">
-                <span>{{ $permit->serie ?? 'SERIE A' }}</span>
+                <div class="cover-footer">
+                    <span>{{ 'SERIE'.$permis->serie}}</span>
+                    <span>{{ 'SERIE '.$permis->serie}}</span>
+                </div>
             </div>
 
+        </div>
         </div>
 
     </div>
