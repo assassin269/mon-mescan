@@ -11,7 +11,10 @@ use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Hidden;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Categories;
+use App\Models\DirecteurGeneral;
+use App\Models\User;
 use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Components\Utilities\Get;
 
@@ -25,7 +28,27 @@ class PermisForm
                     ->default((string) Str::uuid()),
 
                 Hidden::make('user_id')
-                    ->default(auth()->id()),
+                    ->default(Auth::id()),
+
+                Hidden::make('nom_du_directeur_general')
+                    ->default(function () {
+                        /** @var User|null $user */
+                        $user = Auth::user();
+
+                        // Si l'utilisateur est un agent, chercher son directeur
+                        if ($user->isAgent() && $user->directeur_general_id) {
+                            $directeur = DirecteurGeneral::find($user->directeur_general_id);
+                            return $directeur?->nom ?? 'NON DEFINI';
+                        }
+
+                        // Si l'utilisateur est un directeur, prendre son nom
+                        if ($user->isDirecteur() && $user->directeur_general_id) {
+                            $directeur = DirecteurGeneral::find($user->directeur_general_id);
+                            return $directeur?->nom ?? $user->name;
+                        }
+
+                        return 'NON DEFINI';
+                    }),
 
                 Section::make('Info du conducteur')
                     ->schema([
@@ -47,7 +70,7 @@ class PermisForm
                             ->required(),
                     ])->columns(2),
 
-                Section::make('information du permis')
+                Section::make('Information du permis')
                     ->schema([
                         TextInput::make('numero_du_permis')
                             ->required(),
@@ -61,7 +84,8 @@ class PermisForm
                             ->required(),
                         TextInput::make('nom_du_directeur_general')
                             ->label('Nom du Directeur Général')
-                            ->required(),
+                            ->disabled()
+                            ->dehydrated(),
                     ])->columns(2),
 
                 Section::make('Catégories et Validité du Permis')
@@ -72,14 +96,40 @@ class PermisForm
                                 Select::make('categorie_id')
                                     ->label('Choix de la catégorie')
                                     ->options(Categories::all()->pluck('label', 'code'))
-                                    ->required(),
+                                    ->required()
+                                    ->live()
+                                    ->afterStateUpdated(function ($state, callable $set) {
+                                        if (in_array($state, ['C', 'D', 'E'])) {
+                                            $set('statut', 'Temporaire');
+                                        }
+                                    }),
+
                                 Select::make('statut')
                                     ->options([
                                         'Permanent' => 'Permanent',
                                         'Temporaire' => 'Temporaire',
                                     ])
                                     ->required()
-                                    ->live(),
+                                    ->live()
+                                    ->default(function (Get $get) {
+                                        $categorieId = $get('categorie_id');
+                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
+                                            return 'Temporaire';
+                                        }
+                                        return 'Permanent';
+                                    })
+                                    ->disabled(function (Get $get) {
+                                        $categorieId = $get('categorie_id');
+                                        return in_array($categorieId, ['C', 'D', 'E']);
+                                    })
+                                    ->hint(function (Get $get) {
+                                        $categorieId = $get('categorie_id');
+                                        if (in_array($categorieId, ['C', 'D', 'E'])) {
+                                            return '⛔ Cette catégorie est obligatoirement temporaire';
+                                        }
+                                        return null;
+                                    }),
+
                                 DatePicker::make('date_d_expiration')
                                     ->label("Date d'expiration")
                                     ->visible(fn (Get $get) => $get('statut') === 'Temporaire')
@@ -89,10 +139,10 @@ class PermisForm
                             ->addActionLabel('Ajouter une catégorie'),
                     ]),
 
-                Section::make('Mentions specifiques')
+                Section::make('Mentions spécifiques')
                     ->schema([
                         Textarea::make('conditions_restrictives_d_usage')
-                            ->label('5. Conditions restrictives d\'usage')
+                            ->label('Conditions restrictives d\'usage')
                             ->columnSpanFull(),
                         Textarea::make('mentions_additionnelles')
                             ->columnSpanFull(),

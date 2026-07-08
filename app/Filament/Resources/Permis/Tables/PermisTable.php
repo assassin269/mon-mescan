@@ -2,11 +2,16 @@
 
 namespace App\Filament\Resources\Permis\Tables;
 
+use App\Models\User;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction; // Utilisé pour le bouton d'édition
+use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Filament\Support\Enums\Width;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class PermisTable
 {
@@ -18,6 +23,7 @@ class PermisTable
                     ->label('UUID')
                     ->searchable(),
                 TextColumn::make('user.name')
+                    ->label('Créé par')
                     ->searchable(),
                 TextColumn::make('nom')
                     ->searchable(),
@@ -29,8 +35,6 @@ class PermisTable
                 TextColumn::make('lieu_de_naissance')
                     ->searchable(),
                 TextColumn::make('domicile')
-                    ->searchable(),
-                TextColumn::make('photo_du_conducteur')
                     ->searchable(),
                 TextColumn::make('numero_du_permis')
                     ->searchable(),
@@ -55,37 +59,137 @@ class PermisTable
             ->filters([
                 //
             ])
-            // 1. Cette action définit ce qui se passe quand on clique sur la ligne (on garde la modification)
+            // ============================================================
+            // FILTRE PAR RÔLE
+            // ============================================================
+            ->modifyQueryUsing(function (Builder $query) {
+                /** @var User|null $user */
+                $user = Auth::user();
+
+                if (!$user) {
+                    return $query;
+                }
+
+                // Admin voit tout
+                if ($user->isAdmin()) {
+                    return $query;
+                }
+
+                // Directeur voit les permis de ses employés + les siens
+                if ($user->isDirecteur()) {
+                    $employesIds = User::where('directeur_general_id', $user->directeur_general_id)
+                                       ->where('id', '!=', $user->id)
+                                       ->pluck('id')
+                                       ->toArray();
+                    $employesIds[] = $user->id;
+
+                    return $query->whereIn('user_id', $employesIds);
+                }
+
+                // Agent ne voit que ses propres permis
+                if ($user->isAgent()) {
+                    return $query->where('user_id', $user->id);
+                }
+
+                return $query;
+            })
             ->recordActions([
                 EditAction::make(),
             ])
-            // 2. C'est ICI qu'on génère la vraie colonne de boutons indépendants en bout de ligne !
             ->actions([
-                // Le bouton Modifier
-                EditAction::make(),
+                // ============================================================
+                // BOUTON "VOIR"
+                // ============================================================
+                Action::make('voir')
+                    ->label('Voir')
+                    ->color('success')
+                    ->icon('heroicon-m-eye')
+                    ->modalHeading('Aperçu du Permis')
+                    ->modalContent(function ($record) {
+                        return view('permis.partials.preview', ['permis' => $record]);
+                    })
+                    ->modalWidth(Width::SevenExtraLarge)
+                    ->slideOver(),
 
-            // 2. Le bouton PDF avec la couleur 'info' (Bleu vif professionnel)
-                \Filament\Actions\Action::make('telecharger_pdf')
+                // ============================================================
+                // BOUTON "MODIFIER"
+                // ============================================================
+                EditAction::make()
+                    ->color('warning')
+                    ->visible(function ($record) {
+                        /** @var User|null $user */
+                        $user = Auth::user();
+                        if (!$user) return false;
+
+                        // Admin peut tout modifier
+                        if ($user->isAdmin()) {
+                            return true;
+                        }
+
+                        // Directeur peut modifier ses propres permis + ceux de ses agents
+                        if ($user->isDirecteur()) {
+                            $employesIds = User::where('directeur_general_id', $user->directeur_general_id)
+                                               ->where('id', '!=', $user->id)
+                                               ->pluck('id')
+                                               ->toArray();
+                            $employesIds[] = $user->id; // ← AJOUT DU DIRECTEUR LUI-MÊME
+                            return in_array($record->user_id, $employesIds);
+                        }
+
+                        // Agent peut modifier ses propres permis
+                        if ($user->isAgent()) {
+                            return $user->id === $record->user_id;
+                        }
+
+                        return false;
+                    }),
+
+                // ============================================================
+                // BOUTON "PDF"
+                // ============================================================
+                Action::make('telecharger_pdf')
                     ->label('PDF')
-                    ->color('info') // Utilisation de 'info' (bleu vif reconnu par Filament)
-                    ->icon('heroicon-m-arrow-down-tray') // Icône moderne de téléchargement
+                    ->color('info')
+                    ->icon('heroicon-m-arrow-down-tray')
                     ->requiresConfirmation()
-
-                    // --- DESIGN DE LA BOÎTE D'ALERTE (MODAL) ---
                     ->modalHeading('Téléchargement du Document')
                     ->modalDescription('Voulez-vous vraiment générer et télécharger le PDF de ce permis ?')
-                    ->modalIcon('heroicon-o-arrow-down-tray') // Rappel de l'icône en haut de la boîte
-                    ->modalIconColor('info') // L'icône de la boîte s'allume en bleu vif
-                    ->modalSubmitActionLabel('télécharger')
-                    ->modalSubmitAction(fn ($action) => $action->color('info')) // Le bouton de validation devient bleu vif
+                    ->modalIcon('heroicon-o-arrow-down-tray')
+                    ->modalIconColor('info')
+                    ->modalSubmitActionLabel('Télécharger')
+                    ->modalSubmitAction(fn ($action) => $action->color('info'))
                     ->modalCancelActionLabel('Annuler')
-
-                    // L'action de redirection
                     ->action(fn ($record) => redirect()->to(route('permis.pdf', ['uuid' => $record->uuid]))),
 
-                // Le bouton de Suppression unitaire sécurisé
+                // ============================================================
+                // BOUTON "SUPPRIMER"
+                // ============================================================
                 \Filament\Actions\DeleteAction::make()
-                    ->requiresConfirmation(),
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->visible(function ($record) {
+                        /** @var User|null $user */
+                        $user = Auth::user();
+                        if (!$user) return false;
+
+                        // Admin peut tout supprimer
+                        if ($user->isAdmin()) {
+                            return true;
+                        }
+
+                        // Directeur peut supprimer ses propres permis + ceux de ses agents
+                        if ($user->isDirecteur()) {
+                            $employesIds = User::where('directeur_general_id', $user->directeur_general_id)
+                                               ->where('id', '!=', $user->id)
+                                               ->pluck('id')
+                                               ->toArray();
+                            $employesIds[] = $user->id; // ← AJOUT DU DIRECTEUR LUI-MÊME
+                            return in_array($record->user_id, $employesIds);
+                        }
+
+                        // Agent ne peut PAS supprimer
+                        return false;
+                    }),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

@@ -14,7 +14,7 @@ class permis_controller extends Controller
         $permis = Permis::where('uuid', $uuid)->firstOrFail();
 
         // Si le permis existe, on charge la page visuelle en lui passant les données
-        return view('permis.verification', compact('permis'));
+        return view('permis.pdf', compact('permis'));
     }
 
     // AJOUT DE LA MÉTHODE MANQUANTE POUR LE BOUTON FILAMENT
@@ -22,7 +22,7 @@ class permis_controller extends Controller
     {
         $permis = Permis::where('uuid', $uuid)->firstOrFail();
 
-        return Pdf::view('permis.verification', compact('permis'))
+        return Pdf::view('permis.pdf', compact('permis'))
             ->withBrowsershot(function ($browsershot) {
                 $browsershot->noSandbox()
                     ->addChromiumArguments([
