@@ -43,7 +43,9 @@ class PermisForm
                             ->directory('photo_conducteur')
                             ->image()
                             ->imageEditor()
-                            ->disk('public')
+                            ->disk('public') // <--- Force l'utilisation du disque public
+                            ->fetchFileInformation(false)
+                            ->previewable(true)
                             ->required(),
                     ])->columns(2),
 
