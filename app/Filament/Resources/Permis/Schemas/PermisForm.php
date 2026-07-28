@@ -130,6 +130,11 @@ class PermisForm
                         Textarea::make('mentions_additionnelles')
                             ->columnSpanFull(),
                     ]),
+                TextInput::make('motif_modif')
+                            ->label('Motif de la modification')
+                            ->placeholder('Expliquez pourquoi vous modifiez ce permis')
+                            ->required(fn(string $operation): bool => $operation=='edit')
+                            ->visible(fn (string $operation): bool => $operation === 'edit'), // Requis uniquement à la modification !
             ]);
     }
 }

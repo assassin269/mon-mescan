@@ -7,7 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction; // Utilisé pour le bouton d'édition
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-
+use Filament\Forms\Components\TextInput;
 class PermisTable
 {
     public static function configure(Table $table): Table
@@ -85,6 +85,19 @@ class PermisTable
 
                 // Le bouton de Suppression unitaire sécurisé
                 \Filament\Actions\DeleteAction::make()
+                    ->modalHeading('Suppression du permis')
+                    ->modalDescription('Cette action est irréversible. Veuillez renseigner le motif pour l’historique.')
+                    ->schema([
+                        TextInput::make('motif_suppression')
+                            ->label('Motif de la suppression')
+                            ->placeholder('Ex: Permis annulé, fausse information, doublon...')
+                            ->required(),
+                    ])
+                    ->before(function ($record, array $data) {
+        // On attache temporairement le motif au permis
+        // pour que l’Observer puisse le récupérer ensuite
+        $record->motif_temporaire = $data['motif_suppression'];
+    })
                     ->requiresConfirmation(),
             ])
             ->toolbarActions([
