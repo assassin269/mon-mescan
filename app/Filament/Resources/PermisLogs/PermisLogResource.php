@@ -62,9 +62,9 @@ class PermisLogResource extends Resource
                         'supprimer' => 'danger',
                         default => 'gray',
                     }),
-                TextColumn::make('motif_modif')
+                TextColumn::make('motif')
                     ->label('Motif')
-                    
+
                     ->limit(300),])
                     ->defaultSort('created_at', 'desc')
                     ->filters([
