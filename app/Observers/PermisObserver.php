@@ -49,7 +49,7 @@ class PermisObserver
             'permis_id' => $permis->id,
             'user_id' => auth()->id(),
             'action' => 'supprimer',
-            'motif' => $permis->motif ?? null,
+            'motif' => $permis->motif_temporaire?? null,
         ]);
     }
 

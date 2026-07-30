@@ -5,7 +5,9 @@ namespace App\Filament\Resources\Permis\Pages;
 use App\Filament\Resources\Permis\PermisResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-
+use Filament\Resources\Components\Tab;
+use App\Models\Permis;
+use Illuminate\Database\Eloquent\Builder;
 class ListPermis extends ListRecords
 {
     protected static string $resource = PermisResource::class;
@@ -15,5 +17,6 @@ class ListPermis extends ListRecords
         return [
             CreateAction::make(),
         ];
+
     }
 }

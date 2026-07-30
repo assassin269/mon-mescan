@@ -6,8 +6,14 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction; // Utilisé pour le bouton d'édition
 use Filament\Tables\Columns\TextColumn;
+use Filament\Actions\DeleteAction;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\TextInput;
+
+
+
+
 class PermisTable
 {
     public static function configure(Table $table): Table
@@ -53,11 +59,12 @@ class PermisTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+            //
             ])
             // 1. Cette action définit ce qui se passe quand on clique sur la ligne (on garde la modification)
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             // 2. C'est ICI qu'on génère la vraie colonne de boutons indépendants en bout de ligne !
             ->actions([
@@ -70,6 +77,7 @@ class PermisTable
                     ->color('info') // Utilisation de 'info' (bleu vif reconnu par Filament)
                     ->icon('heroicon-m-arrow-down-tray') // Icône moderne de téléchargement
                     ->requiresConfirmation()
+
 
                     // --- DESIGN DE LA BOÎTE D'ALERTE (MODAL) ---
                     ->modalHeading('Téléchargement du Document')
@@ -99,7 +107,9 @@ class PermisTable
         $record->motif_temporaire = $data['motif_suppression'];
     })
                     ->requiresConfirmation(),
+
             ])
+
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
