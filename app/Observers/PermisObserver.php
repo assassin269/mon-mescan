@@ -45,6 +45,16 @@ class PermisObserver
      */
     public function deleted(Permis $permis): void
     {
+        if ($permis->isForceDeleting()) {
+            PermisLog::create([
+                'permis_id'                  => null, // L'ID SQL passe à null car le permis va être détruit
+                'numero_du_permis_sauvegarde' => $permis->numero_du_permis, // On sauve LE NUMÉRO DE PERMIS !
+                'user_id'                    => auth()->id(),
+                'action'                     => 'suppression definitive',
+                'motif'                      =>  $permis->motif_temporaire,
+            ]);
+            return;
+        }
         PermisLog::create([
             'permis_id' => $permis->id,
             'user_id' => auth()->id(),
@@ -58,7 +68,11 @@ class PermisObserver
      */
     public function restored(Permis $permis): void
     {
-        //
+         PermisLog::create([
+                'permis_id'                  => null, // L'ID SQL passe à null car le permis va être détruit
+                'numero_du_permis_sauvegarde' => $permis->numero_du_permis, // On sauve LE NUMÉRO DE PERMIS !
+                'user_id'                    => auth()->id(),
+                'action'                     => 'Restaurer',]);
     }
 
     /**

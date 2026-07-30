@@ -21,7 +21,7 @@ class PermisLogResource extends Resource
 {
     protected static ?string $model = PermisLog::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clock';
 
     protected static ?string $recordTitleAttribute = 'Historique';
     protected static ?string $navigationLabel = 'Historique';
@@ -50,6 +50,18 @@ class PermisLogResource extends Resource
                     ->label('Créer le')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
+
+                TextColumn::make('permis.numero_du_permis')
+                    ->label('N°')
+                    ->formatStateUsing(function (PermisLog $record) {
+        // 1. Si le permis existe (même s'il est en corbeille grâce à withTrashed)
+        if ($record->permis) {
+            return $record->permis->numero_du_permis; // Ex: "P-2026-004"
+        }
+
+        // 2. Si le permis a été supprimé définitivement
+        return $record->numero_du_permis_sauvegarde ?? 'N° Inconnu';
+    }),
                 TextColumn::make('user.name')
                     ->label('Utilisateur')
                     ->searchable(),
@@ -60,7 +72,8 @@ class PermisLogResource extends Resource
                         'ajouter' => 'success',
                         'modifier' => 'warning',
                         'supprimer' => 'danger',
-                        default => 'gray',
+                        'suppression definitive'=>'gray',
+                        'Restaurer'=>'info',
                     }),
                 TextColumn::make('motif')
                     ->label('Motif')
@@ -78,9 +91,7 @@ class PermisLogResource extends Resource
                     ])
 
 
-            ->filters([
-                //
-            ])
+
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make(),
