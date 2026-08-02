@@ -28,7 +28,7 @@ return new class extends Migration
 
         // 2. Informations Administratives du Titre
         $table->string('numero_du_permis')->unique();
-        $table->string('serie');
+        $table->string('serie');    
         $table->string('centre_d_emission');
         $table->date('date_d_emission');
         $table->string('nom_du_directeur_general');

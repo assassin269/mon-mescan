@@ -69,7 +69,7 @@ class PermisObserver
     public function restored(Permis $permis): void
     {
          PermisLog::create([
-                'permis_id'                  => null, // L'ID SQL passe à null car le permis va être détruit
+                'permis_id'                  =>$permis->id, // pour que le restauration marche
                 'numero_du_permis_sauvegarde' => $permis->numero_du_permis, // On sauve LE NUMÉRO DE PERMIS !
                 'user_id'                    => auth()->id(),
                 'action'                     => 'Restaurer',]);

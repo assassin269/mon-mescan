@@ -53,7 +53,7 @@ class PermisLogResource extends Resource
 
                 TextColumn::make('permis.numero_du_permis')
                     ->label('N°')
-                    ->formatStateUsing(function (PermisLog $record) {
+                    ->getStateUsing(function (PermisLog $record) {
         // 1. Si le permis existe (même s'il est en corbeille grâce à withTrashed)
         if ($record->permis) {
             return $record->permis->numero_du_permis; // Ex: "P-2026-004"

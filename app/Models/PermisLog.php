@@ -9,6 +9,7 @@ class PermisLog extends Model
     protected $fillable = [
         'permis_id',
         'user_id',
+        'numero_du_permis_sauvegarde',
         'action',
         'changements',
         'motif',
