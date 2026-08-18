@@ -79,7 +79,7 @@ class PermisObserver
      * Handle the Permis "force deleted" event.
      */
     public function forceDeleted(Permis $permis): void
-    {
+    {                                                                                                                    
         //
     }
 }
