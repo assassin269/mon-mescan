@@ -58,6 +58,7 @@ class PermisObserver
         PermisLog::create([
             'permis_id' => $permis->id,
             'user_id' => auth()->id(),
+            'numero_du_permis_sauvegarde' => $permis->numero_du_permis,
             'action' => 'supprimer',
             'motif' => $permis->motif_temporaire?? null,
         ]);
@@ -79,7 +80,7 @@ class PermisObserver
      * Handle the Permis "force deleted" event.
      */
     public function forceDeleted(Permis $permis): void
-    {                                                                                                                    
+    {
         //
     }
 }
