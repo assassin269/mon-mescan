@@ -9,7 +9,13 @@ use Filament\Actions\EditAction;          // Pour EditAction::make()
 use Filament\Actions\Action;
 use Filament\Support\Enums\Width;
 use Filament\Tables\Columns\TextColumn;
+
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Filament\Forms\Components\TextInput;
+
+
+
 
 class PermisTable
 {
@@ -56,10 +62,11 @@ class PermisTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+            //
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->actions([
                 // ============================================================
@@ -90,6 +97,9 @@ class PermisTable
                     ->color('info')
                     ->icon('heroicon-m-arrow-down-tray')
                     ->requiresConfirmation()
+
+
+                    // --- DESIGN DE LA BOÎTE D'ALERTE (MODAL) ---
                     ->modalHeading('Téléchargement du Document')
                     ->modalDescription('Voulez-vous vraiment générer et télécharger le PDF de ce permis ?')
                     ->modalIcon('heroicon-o-arrow-down-tray')
@@ -99,13 +109,25 @@ class PermisTable
                     ->modalCancelActionLabel('Annuler')
                     ->action(fn ($record) => redirect()->to(route('permis.pdf', ['uuid' => $record->uuid]))),
 
-                // ============================================================
-                // 4. BOUTON "SUPPRIMER" (Delete)
-                // ============================================================
-                DeleteAction::make()
-                    ->color('danger')
+                // Le bouton de Suppression unitaire sécurisé
+                \Filament\Actions\DeleteAction::make()
+                    ->modalHeading('Suppression du permis')
+                    ->modalDescription('Cette action est irréversible. Veuillez renseigner le motif pour l’historique.')
+                    ->schema([
+                        TextInput::make('motif_suppression')
+                            ->label('Motif de la suppression')
+                            ->placeholder('Ex: Permis annulé, fausse information, doublon...')
+                            ->required(),
+                    ])
+                    ->before(function ($record, array $data) {
+        // On attache temporairement le motif au permis
+        // pour que l’Observer puisse le récupérer ensuite
+        $record->motif_temporaire = $data['motif_suppression'];
+    })
                     ->requiresConfirmation(),
+
             ])
+
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
