@@ -234,24 +234,12 @@
 <div class="cut-line-container">
     <div class="permit-container">
 
-    <div class="panel-left">
-        <div class="input-group"><span class="label-text">1. Nom</span> <span class="value-text" style="width: 53mm;">{{ $permis->nom }}</span></div>
-        <div class="input-group"><span class="label-text">2. Prénom</span> <span class="value-text" style="width: 49mm;">{{ $permis->prenom }}</span></div>
-        <div class="input-group">
-            <span class="label-text">3. Date et lieu de naissance</span>
-            <span class="value-text" style="width: 30mm;">{{ $permis->date_de_naissance ? \Carbon\Carbon::parse($permis->date_de_naissance)->format('d.m.Y') : '' }}</span>
-        </div>
-        <div class="input-group" style="margin-top: -1mm;"><span class="value-text" style="width: 63mm;">{{ $permis->lieu_de_naissance }}</span></div>
-        <div class="input-group"><span class="label-text">4. Domicile</span> <span class="value-text" style="width: 49mm;">{{ $permis->domicile }}</span></div>
-
-        <div class="photo-signature-row">
-            <div class="signature-box"><span class="signature-title">Signature du Titulaire</span></div>
-            <div class="photo-box">
-                @if($permis->photo_du_conducteur)
-                    <img src="{{ asset('storage/'.$permis->photo_du_conducteur) }}" class="photo-img" alt="Photo">
-                @else
-                    <div class="photo-placeholder">Photo</div>
-                @endif
+        <div class="panel-left">
+            <div class="input-group"><span class="label-text">1. Nom</span> <span class="value-text" style="width: 53mm;">{{ $permis->nom }}</span></div>
+            <div class="input-group"><span class="label-text">2. Prénom</span> <span class="value-text" style="width: 49mm;">{{ $permis->prenom }}</span></div>
+            <div class="input-group">
+                <span class="label-text">3. Date et lieu de naissance</span>
+                <span class="value-text" style="width: 30mm;">{{ $permis->date_de_naissance ? \Carbon\Carbon::parse($permis->date_de_naissance)->format('d.m.Y') : '' }}</span>
             </div>
             <div class="input-group" style="margin-top: -1mm;"><span class="value-text" style="width: 63mm;">{{ $permis->lieu_de_naissance }}</span></div>
             <div class="input-group"><span class="label-text">4. Domicile</span> <span class="value-text" style="width: 49mm;">{{ $permis->domicile }}</span></div>
@@ -260,7 +248,7 @@
                 <div class="signature-box"><span class="signature-title">Signature du Titulaire</span></div>
                 <div class="photo-box">
                     @if($permis->photo_du_conducteur)
-                        <img src="{{ public_path('storage/'.$permis->photo_du_conducteur) }}" class="photo-img" alt="Photo">
+                        <img src="{{ asset('storage/'.$permis->photo_du_conducteur) }}" class="photo-img" alt="Photo">
                     @else
                         <div class="photo-placeholder">Photo</div>
                     @endif

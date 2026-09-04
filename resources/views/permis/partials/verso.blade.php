@@ -2,17 +2,15 @@
     /* =========================================================================
        LIGNE DE DÉCOUPAGE ET CONSTRUCTEUR GLOBAL (VERSO)
        ========================================================================= */
-    /* Ce conteneur simule la ligne de découpe avec les 0.7cm de distance */
     .cut-line-container-verso {
         width: 232mm; /* 218mm (permis) + 7mm (gauche) + 7mm (droite) */
         height: 107mm; /* 93mm (permis) + 7mm (haut) + 7mm (bas) */
-        border: 1px dashed #000; /* Ligne de découpage */
-        padding: 7mm; /* Distance exacte de 0.7cm */
+        border: 1px dashed #000;
+        padding: 7mm;
         box-sizing: border-box;
         margin: 0 auto;
     }
 
-    /* On isole le comportement global du verso dans sa propre classe */
     .body-verso {
         margin: 0;
         padding: 0;
@@ -30,7 +28,7 @@
         height: 93mm;
         display: flex;
         box-sizing: border-box;
-        background-color: #ffffff; /* À passer en #ffccd5 pour simuler le rose, ou garder blanc si imprimé sur papier rose */
+        background-color: #ffffff;
         position: relative;
         justify-content: space-between;
     }
@@ -54,7 +52,7 @@
     }
 
     /* =========================================================================
-        VOLETS GAUCHE & CENTRAL : Police Sans-Serif
+       VOLETS GAUCHE & CENTRAL : Police Sans-Serif
        ========================================================================= */
     .body-verso .sans-serif-panel {
         font-family: Arial, Helvetica, sans-serif;
@@ -95,7 +93,7 @@
     }
 
     .body-verso .renewal-row {
-        height: 13.66mm; /* Réglé au millième pour s'emboîter parfaitement */
+        height: 13.66mm;
         border-bottom: 1px solid #000;
         display: flex;
         box-sizing: border-box;
@@ -205,7 +203,7 @@
     }
 
     /* =========================================================================
-        VOLET DROIT : Couverture (Times New Roman)
+       VOLET DROIT : Couverture (Times New Roman)
        ========================================================================= */
     .body-verso .serif-panel {
         font-family: "Times New Roman", Times, serif;
@@ -255,14 +253,14 @@
         letter-spacing: 0.2px;
     }
 
-    /* QR Code MeScan Absolu */
+    /* --- AJUSTEMENT DU QR CODE MESCAN --- */
     .body-verso .cover-qrcode-absolute {
         position: absolute;
-        top: 27mm; /* Ajusté par rapport à la nouvelle hauteur */
+        top: 31mm;
         left: 50%;
         transform: translateX(-50%);
-        width: 20mm;
-        height: 20mm;
+        width: 21mm;
+        height: 21mm;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -274,13 +272,14 @@
         width: 100%;
         object-fit: contain;
         background-color: #ffffff;
-        padding: 0.5mm;
-        border: 1px solid #000;
+        padding: 0.8mm;
+        border: 1px solid #9ca3af;
+        border-radius: 3px;
         box-sizing: border-box;
     }
 
     .body-verso .cover-middle {
-        margin-top: 25mm; /* Ajusté pour laisser la place au QR code */
+        margin-top: 31mm;
     }
 
     .body-verso .cover-main-title {
@@ -303,6 +302,7 @@
     <div class="body-verso">
         <div class="permit-container-verso">
 
+            <!-- VOLET GAUCHE -->
             <div class="panel-verso sans-serif-panel">
                 <div class="renewal-header">
                     <div class="header-left-title">
@@ -313,6 +313,7 @@
                     </div>
                 </div>
 
+                @for ($i = 0; $i < 6; $i++)
                 <div class="renewal-row">
                     <div class="renewal-dates-col">
                         <div class="input-line-flex">
@@ -324,70 +325,12 @@
                     </div>
                     <div class="renewal-seal-col"></div>
                 </div>
-
-                <div class="renewal-row">
-                    <div class="renewal-dates-col">
-                        <div class="input-line-flex">
-                            <span>Le</span><div class="dotted-spacer"></div><span class="text-cal">cal</span><div class="dotted-spacer" style="flex: 0.4;"></div>
-                        </div>
-                        <div class="input-line-flex">
-                            <span>Valable jusqu'au</span><div class="dotted-spacer"></div>
-                        </div>
-                    </div>
-                    <div class="renewal-seal-col"></div>
-                </div>
-
-                <div class="renewal-row">
-                    <div class="renewal-dates-col">
-                        <div class="input-line-flex">
-                            <span>Le</span><div class="dotted-spacer"></div><span class="text-cal">cal</span><div class="dotted-spacer" style="flex: 0.4;"></div>
-                        </div>
-                        <div class="input-line-flex">
-                            <span>Valable jusqu'au</span><div class="dotted-spacer"></div>
-                        </div>
-                    </div>
-                    <div class="renewal-seal-col"></div>
-                </div>
-
-                <div class="renewal-row">
-                    <div class="renewal-dates-col">
-                        <div class="input-line-flex">
-                            <span>Le</span><div class="dotted-spacer"></div><span class="text-cal">cal</span><div class="dotted-spacer" style="flex: 0.4;"></div>
-                        </div>
-                        <div class="input-line-flex">
-                            <span>Valable jusqu'au</span><div class="dotted-spacer"></div>
-                        </div>
-                    </div>
-                    <div class="renewal-seal-col"></div>
-                </div>
-
-                <div class="renewal-row">
-                    <div class="renewal-dates-col">
-                        <div class="input-line-flex">
-                            <span>Le</span><div class="dotted-spacer"></div><span class="text-cal">cal</span><div class="dotted-spacer" style="flex: 0.4;"></div>
-                        </div>
-                        <div class="input-line-flex">
-                            <span>Valable jusqu'au</span><div class="dotted-spacer"></div>
-                        </div>
-                    </div>
-                    <div class="renewal-seal-col"></div>
-                </div>
-
-                <div class="renewal-row">
-                    <div class="renewal-dates-col">
-                        <div class="input-line-flex">
-                            <span>Le</span><div class="dotted-spacer"></div><span class="text-cal">cal</span><div class="dotted-spacer" style="flex: 0.4;"></div>
-                        </div>
-                        <div class="input-line-flex">
-                            <span>Valable jusqu'au</span><div class="dotted-spacer"></div>
-                        </div>
-                    </div>
-                    <div class="renewal-seal-col"></div>
-                </div>
+                @endfor
             </div>
 
             <div class="spacer"></div>
 
+            <!-- VOLET CENTRAL -->
             <div class="panel-verso sans-serif-panel">
                 <div class="central-block block-restrictive">
                     <span class="block-title-verso">Conditions restrictives d'usage</span>
@@ -414,6 +357,7 @@
 
             <div class="spacer"></div>
 
+            <!-- VOLET DROIT (COUVERTURE) -->
             <div class="panel-verso serif-panel">
 
                 <div class="cover-qrcode-absolute">
@@ -442,7 +386,7 @@
                     </div>
 
                     <div class="cover-footer">
-                        <span>{{ 'SERIE '.$permis->serie}}</span>
+                        <span>{{ 'SERIE '.$permis->serie }}</span>
                     </div>
                 </div>
 

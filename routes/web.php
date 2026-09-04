@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\controllers\permis_controller;
-
+use App\Models\Permis;
+use chillerlan\QRCode\QRCode;
 
 Route::view('/', 'welcome')->name('home');
 
@@ -17,3 +18,12 @@ require __DIR__.'/settings.php';
 // Route pour générer et télécharger le PDF avec Spatie
 Route::get('/permis/pdf/{uuid}', [permis_controller::class, 'telechargerPDF'])->name('permis.pdf');
 Route::get('/permis/test-pdf/{uuid}', [permis_controller::class, 'testPdf'])->name('permis.test-pdf');
+
+
+Route::get('/permis/{uuid}/preview', function ($uuid) {
+    $permis = Permis::where('uuid', $uuid)->firstOrFail();
+    $urlVerification = route('permis.verifier', ['uuid' => $permis->uuid]);
+    $qrCodeImage = (new QRCode)->render($urlVerification);
+
+    return view('permis.pdf', compact('permis', 'qrCodeImage'));
+})->name('permis.preview');

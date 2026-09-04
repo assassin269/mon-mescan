@@ -16,4 +16,14 @@ class EditPermis extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        if (array_key_exists('motif_modif', $data)) {
+            request()->merge(['motif_modif' => $data['motif_modif']]);
+            unset($data['motif_modif']);
+        }
+
+        return $data;
+    }
 }

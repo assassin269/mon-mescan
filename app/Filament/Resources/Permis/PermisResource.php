@@ -47,5 +47,5 @@ class PermisResource extends Resource
             'edit' => EditPermis::route('/{record}/edit'),
         ];
     }
-    
+
 }

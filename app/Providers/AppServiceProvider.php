@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Providers;
-
+use App\Observers\PermisObserver;
+use App\Models\Permis;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Permis::observe(PermisObserver::class);
         $this->configureDefaults();
     }
 
