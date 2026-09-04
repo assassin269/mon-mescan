@@ -60,6 +60,7 @@ class PermisObserver
             'permis_id' => $permis->id,
             'numero_du_permis_sauvegarde' => $permis->numero_du_permis,
             'user_id' => auth()->id(),
+            'numero_du_permis_sauvegarde' => $permis->numero_du_permis,
             'action' => 'supprimer',
             'motif' => $permis->motif_temporaire?? null,
         ]);
